@@ -1,0 +1,57 @@
+#
+# Copyright (c) 2020 Nordic Semiconductor ASA
+#
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+#
+
+menu "LMT SoM settings"
+
+config THREAD_STACK_SIZE_512
+    int "Thread stack size"
+    default 512
+
+config THREAD_STACK_SIZE_1024
+    int "Thread stack size"
+    default 1024
+
+config THREAD_STACK_SIZE_2048
+    int "Thread stack size"
+    default 2048
+
+config THREAD_STACK_SIZE_4096
+    int "Thread stack size"
+    default 4096
+
+config USE_USER_BUTTON
+    bool "Enable the debug button"
+    default n
+
+config INPUT
+    bool "Enable the INPUT" if USE_USER_BUTTON
+    default y if USE_USER_BUTTON
+
+config INPUT_GPIO_KEYS
+    bool "Enable the GPIO_KEYS" if USE_USER_BUTTON
+    default y if USE_USER_BUTTON
+
+config EVENTS
+    bool "Enable the user EVENTS" if USE_USER_BUTTON
+    default y
+
+config DATA_STORAGE_ON_FS
+    bool "Enable the data saving on external flash"
+    default n
+
+config ARDUINO_STYLE
+    bool "Programm in Arduino style"
+    default n
+
+endmenu
+
+module = SoM
+module-str = LMT system-on-module
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
+
+menu "Zephyr Kernel"
+source "Kconfig.zephyr"
+endmenu

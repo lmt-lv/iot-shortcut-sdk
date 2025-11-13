@@ -1,0 +1,31 @@
+# editors
+*.swp
+*~
+*.tmp
+Kconfig.[0-9]*
+proj.conf.[0-9]*
+CMakeLists.txt.[0-9]*
+
+# build
+/build*/
+**/build*/
+/.vscode/
+
+# github.com
+/github.com/
+
+# internal
+samples/a2/
+samples/dy*/
+samples/el-*/
+
+# boards
+**/boards/
+!/boards/
+!/boards/**
+
+# debug lmtSDK
+/lib/debug/
+
+# COAP.json
+samples/*/etc/COAP.json

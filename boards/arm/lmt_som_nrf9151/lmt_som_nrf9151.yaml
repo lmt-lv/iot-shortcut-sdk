@@ -1,0 +1,17 @@
+identifier: lmt_som_nrf9151
+name: LMT-SoM-nRF9151
+type: mcu
+arch: arm
+toolchain:
+  - gnuarmemb
+  - xtools
+  - zephyr
+ram: 88
+flash: 1024
+supported:
+  - i2c
+  - spi
+  - watchdog
+  - gpio
+  - uart
+vendor: lmt

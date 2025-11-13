@@ -1,0 +1,16 @@
+identifier: lmt_som_nrf9160
+name: LMT-SoM-nRF9160
+type: mcu
+arch: arm
+toolchain:
+  - gnuarmemb
+  - xtools
+  - zephyr
+ram: 64
+flash: 256
+supported:
+  - i2c
+  - spi
+  - watchdog
+  - gpio
+  - uart

@@ -1,0 +1,86 @@
+config LMTSDK
+    bool "Enable lmtSDK module"
+    default y
+    select LOG
+    select SERIAL
+    select NETWORKING
+    select NET_SOCKETS
+    select NET_SOCKETS_OFFLOAD
+    select NET_SOCKETS_POSIX_NAMES
+    select LTE_LINK_CONTROL
+    select NRF_MODEM_LIB
+    select MODEM_KEY_MGMT
+    select LTE_PSM_REQ
+    select LTE_EDRX_REQ
+    select LTE_RAI_REQ
+    select COAP
+    select COAP_EXTENDED_OPTIONS_LEN
+    select DATE_TIME
+    select DATE_TIME_AUTO_UPDATE
+    select CJSON_LIB
+    select NANOPB
+    select FILE_SYSTEM
+    select FILE_SYSTEM_LITTLEFS
+    select FILE_SYSTEM_MKFS
+    select FLASH
+    select FLASH_MAP
+    select FLASH_PAGE_LAYOUT
+    select SPI_NOR_IDLE_IN_DPD
+    select NVS
+    select SPI
+    select SPI_NOR
+    select FLASH_JESD216_API
+    select PM_PARTITION_REGION_LITTLEFS_EXTERNAL
+    select BOOTLOADER_MCUBOOT
+    select STREAM_FLASH
+    select IMG_MANAGER
+    select ASSERT
+    select POWEROFF
+
+# # # For options that are not boolean, set defaults when LMTSDK is enabled
+
+config NET_NATIVE
+    bool
+    default n if LMTSDK
+
+config LTE_PSM_REQ_RPTAU
+    string
+    default "00111000" if LMTSDK
+
+config LTE_PSM_REQ_RAT
+    string
+    default "00000011" if LMTSDK
+
+config LTE_EDRX_REQ_VALUE_LTE_M
+    string
+    default "1001" if LMTSDK
+
+config COAP_EXTENDED_OPTIONS_LEN_VALUE
+    int
+    default 40 if LMTSDK
+
+config SPI_NOR_FLASH_LAYOUT_PAGE_SIZE
+    int
+    default 4096 if LMTSDK
+
+config PM_PARTITION_SIZE_LITTLEFS
+    hex
+    default 0x400000 if LMTSDK
+
+config IMG_BLOCK_BUF_SIZE
+    int
+    default 1024 if LMTSDK
+
+config PM_EXTERNAL_FLASH_MCUBOOT_SECONDARY
+    bool
+    default n if LMTSDK
+
+choice LTE_NETWORK_MODE
+    prompt "LTE Network Mode"
+    default LTE_NETWORK_MODE_LTE_M if LMTSDK
+endchoice
+
+choice FS_LOG_LEVEL_CHOICE
+    prompt "Date Time Log Level"
+    default FS_LOG_LEVEL_OFF if LMTSDK
+endchoice
