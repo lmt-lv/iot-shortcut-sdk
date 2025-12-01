@@ -72,20 +72,6 @@ void setCoapTxFileResource(const char *resource);
 void setCoapTxFwResource(const char *resource);
 
 /**
- * @brief Set the device name used in COAP communication.
- *
- * @param name Null-terminated string representing the device name.
- */
-void setCoapDeviceName(const char *name);
-
-/**
- * @brief Set the pre-shared key (PSK) for COAPS communication.
- *
- * @param psk Null-terminated string representing the PSK.
- */
-void setCoapServerPsk(const char *psk);
-
-/**
  * @brief Set the hostname of the main COAPS server.
  *
  * @param hostname Null-terminated string with the server's hostname or IP address.
@@ -124,16 +110,10 @@ const char *getCoapTxFwResource(void);
 /**
  * @brief Get the configured device name used in COAP.
  *
- * @return Null-terminated string representing the device name.
+ * @param device_name Pointer to a buffer where the device name will be stored.
+ * @param len Length pointer holds in/out buffer size.
  */
-const char *getCoapDeviceName(void);
-
-/**
- * @brief Get the configured COAPS pre-shared key (PSK).
- *
- * @return Null-terminated string representing the PSK.
- */
-const char *getCoapServerPsk(void);
+void getCoapDeviceName(char *device_name, unsigned *len);
 
 /**
  * @brief Get the configured main COAPS server hostname.

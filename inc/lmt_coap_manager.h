@@ -20,6 +20,14 @@ typedef enum
 } MailerWaitModes;
 
 /**
+ * @brief Reads device serial number (SN).
+ *
+ * @param sn_buffer Pointer to store the SN.
+ * @param buffer_size Pointer to buffer size; updated with actual SN length.
+ */
+void getDeviceSN(char *sn_buffer, size_t *buffer_size);
+
+/**
  * @brief Checks if the device is currently connected to the IoT network.
  *
  * @return true if the device is connected, false otherwise.
@@ -152,11 +160,11 @@ void postponeLogRead();
 void postponeTerminalCmd(uint8_t *p_cmd, uint8_t size);
 
 /** /// @private
- * @brief Check if the requested action is set
+ * @brief Returns the requested action; used to check if it is set.
  *
- * @return 0 if no action set, positive value otherwise
+ * @return 0 if no action set, action value otherwise
  */
-uint8_t checkRequestedAction(void);
+uint8_t getRequestedAction(void);
 
 /**
  * @brief Function to close the socket and power off the modem
