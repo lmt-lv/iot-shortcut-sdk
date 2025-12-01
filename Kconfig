@@ -10,8 +10,6 @@ config LMTSDK
     select LTE_LINK_CONTROL
     select NRF_MODEM_LIB
     select MODEM_KEY_MGMT
-    select LTE_PSM_REQ
-    select LTE_EDRX_REQ
     select LTE_RAI_REQ
     select COAP
     select COAP_EXTENDED_OPTIONS_LEN
@@ -43,17 +41,15 @@ config NET_NATIVE
     bool
     default n if LMTSDK
 
-config LTE_PSM_REQ_RPTAU
+# CONFIG_LTE_PSM_REQ_RPTAU for more information
+config LTE_PSM_RPTAU
     string
     default "00111000" if LMTSDK
 
-config LTE_PSM_REQ_RAT
+# CONFIG_LTE_PSM_REQ_RAT for more information
+config LTE_PSM_RAT
     string
     default "00000011" if LMTSDK
-
-config LTE_EDRX_REQ_VALUE_LTE_M
-    string
-    default "1001" if LMTSDK
 
 config COAP_EXTENDED_OPTIONS_LEN_VALUE
     int
@@ -74,11 +70,6 @@ config IMG_BLOCK_BUF_SIZE
 config PM_EXTERNAL_FLASH_MCUBOOT_SECONDARY
     bool
     default n if LMTSDK
-
-choice LTE_NETWORK_MODE
-    prompt "LTE Network Mode"
-    default LTE_NETWORK_MODE_LTE_M if LMTSDK
-endchoice
 
 choice FS_LOG_LEVEL_CHOICE
     prompt "Date Time Log Level"

@@ -27,25 +27,28 @@ void usrInit(void)
 }
 
 /**
- * @brief Event callback function.
- *        Declared in SDK. Can be not defined if user does not want to handle SoM events
+ * @brief Event callback functions
+ *
+ * The SDK uses an event-driven architecture where each SOM event has a corresponding callback
+ * function. Users implement only the callbacks they need to handle specific events.
+ *
+ * Event naming pattern: EVENT_DEVICE_INIT_OK -> onDeviceInitOk (remove "EVENT_" prefix, camelCase)
+ * Full list of available events is in `lmt_som_event_emitter.h`.
+ *
+ * To handle an event, simply implement its callback function with the signature:
+ *   void onEventName(void *p_data, int i_data)
+ *
+ * Unimplemented callbacks are ignored by the SDK.
  */
-void somEventHandler(SomEvent event, void *data, uint8_t data_len)
+void onDeviceInitOk(void *p_data, int i_data)
 {
-    switch(event)
-    {
-        case EVENT_DEVICE_INIT_OK:
-            logInfo("Hello world!");
-            break;
+    logInfo("Hello world!");
+}
 
-        case EVENT_TERMINAL_CMD:
-            // Perform the requested command and send the result
-            sendEventCmdRes(runTerminalCmd(data, data_len));
-            break;
-
-        default:
-            break;
-    }
+void onTerminalCmd(void *p_data, int i_data)
+{
+    // Perform the requested command and send the result
+    sendEventCmdRes(runTerminalCmd(p_data, i_data));
 }
 
 /**

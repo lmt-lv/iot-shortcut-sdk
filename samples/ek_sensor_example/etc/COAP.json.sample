@@ -1,9 +1,7 @@
 {
+  "SERVER_HOSTNAME": "coaps.lmt-iot.com",
   "SERVER_PORT": 5784,
-  "TX_RESOURCE": "sh",
-  "TX_FILE_RESOURCE": "files",
-  "TX_FW_RESOURCE": "fw",
-  "DEVICE_NAME": "Enter SN from product label here",
-  "SERVER_PSK": "Enter PSK from product label here",
-  "SERVER_HOSTNAME": "coaps.lmt-iot.com"
+  "COAP_TX_RESOURCE": "sh",
+  "COAP_TX_FILE_RESOURCE": "files",
+  "COAP_TX_FW_RESOURCE": "fw"
 }

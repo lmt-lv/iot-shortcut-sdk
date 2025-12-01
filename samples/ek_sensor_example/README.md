@@ -1,11 +1,3 @@
-## Future Improvements
-
-- **More intuitive function and file names:**
-	- Improve naming throughout the codebase to make it even easier to understand and maintain.
-
-- **COAP.json key management:**
-	- Some sensitive keys may be hidden or managed within the SDK or hardware in the future, as expected by platform developers. This approach is still need to be discussed.
-
 ## System Logic
 
 The application performs the following tasks:

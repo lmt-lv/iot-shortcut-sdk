@@ -76,32 +76,28 @@ void appInit(void)
 }
 
 /**
- * @brief Event callback function.
+ * @brief Event callback functions
  *
- * This function is called automatically by the SDK when certain events occur.
+ * The SDK uses an event-driven architecture where each SOM event has a corresponding callback
+ * function. Users implement only the callbacks they need to handle specific events.
  *
- * - EVENT_DEVICE_INIT_OK: All system parts initialized successfully.
- * - EVENT_TERMINAL_CMD:   A command was received from the terminal (serial input).
+ * Event naming pattern: EVENT_DEVICE_INIT_OK -> onDeviceInitOk (remove "EVENT_" prefix, camelCase)
+ * Full list of available events is in `lmt_som_event_emitter.h`.
  *
- * You can add more event handling as needed.
+ * To handle an event, simply implement its callback function with the signature:
+ *   void onEventName(void *p_data, int i_data)
+ *
+ * Unimplemented callbacks are ignored by the SDK.
  */
-void handleSomEvent(SomEvent event, void *data, uint8_t data_len)
+void onDeviceInitOk(void *p_data, int i_data)
 {
-    switch(event)
-    {
-        case EVENT_DEVICE_INIT_OK:
-            logInfo("All system parts initialized successfully");
-            break;
+    logInfo("All system parts initialized successfully");
+}
 
-        case EVENT_TERMINAL_CMD:
-            // Run the received terminal command
-            sendEventCmdRes(runTerminalCmd(data, data_len));
-            break;
-
-        default:
-            // Other events can be handled here if needed
-            break;
-    }
+void onTerminalCmd(void *p_data, int i_data)
+{
+    // Perform the requested command and send the result
+    sendEventCmdRes(runTerminalCmd(p_data, i_data));
 }
 
 /**

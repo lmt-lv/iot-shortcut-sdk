@@ -8,13 +8,11 @@ import re
 
 # Required fields for COAP.json - add/modify as needed
 REQUIRED_COAP_FIELDS = [
+    "SERVER_HOSTNAME",
     "SERVER_PORT",
-    "TX_RESOURCE", 
-    "TX_FILE_RESOURCE",
-    "TX_FW_RESOURCE",
-    "DEVICE_NAME",
-    "SERVER_PSK",
-    "SERVER_HOSTNAME"
+    "COAP_TX_RESOURCE",
+    "COAP_TX_FILE_RESOURCE",
+    "COAP_TX_FW_RESOURCE"
 ]
 
 def validate_coap_json_duplicates(file_path):
