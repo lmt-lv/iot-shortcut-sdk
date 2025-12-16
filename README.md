@@ -26,7 +26,7 @@ IoT Shortcut SoM and SDK is designed to accelerate time-to-market by streamlinin
 1. Download or clone this repository:
    ```bash
    git clone [repository-url]
-   ```
+   ``` 
 
 2. Add the IoT Shortcut SDK boards definition folder to the nRF Connect SDK configuration:
    - Follow the instructions at https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-3-adding-custom-board-support/topic/exercise-1/
