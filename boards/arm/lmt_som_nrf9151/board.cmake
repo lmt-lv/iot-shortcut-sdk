@@ -1,3 +1,4 @@
+# Copyright 2025 Latvijas Mobilais Telefons
 # SPDX-License-Identifier: Apache-2.0
 
 if(CONFIG_BOARD_NRF9151DK_NRF9151_NS)

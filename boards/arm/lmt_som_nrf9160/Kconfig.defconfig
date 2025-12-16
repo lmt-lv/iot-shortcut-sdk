@@ -1,8 +1,7 @@
-# LMT nRF9160 SoM configuration
-
-# Copyright (c) 2018-2020 Nordic Semiconductor ASA
-# Copyright (c) 2024 Latvijas Mobilais Telefons
+# Copyright (c) 2025 Latvijas Mobilais Telefons
 # SPDX-License-Identifier: Apache-2.0
+
+# LMT nRF9160 SoM configuration
 
 if BOARD_LMT_SOM_NRF9160 || BOARD_LMT_SOM_NRF9160_NS
 

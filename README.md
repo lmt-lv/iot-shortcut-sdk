@@ -55,3 +55,8 @@ The SDK includes the following sample projects:
 
 ## Acknowledgments
 Built on Nordic Semiconductor's nRF Connect SDK.
+
+## License
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+Copyright 2025 Latvijas Mobilais Telefons

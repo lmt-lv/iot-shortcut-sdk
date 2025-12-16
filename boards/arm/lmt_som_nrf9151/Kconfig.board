@@ -1,7 +1,7 @@
-# LMT nRF9151 SoM configuration
-
 # Copyright (c) 2025 Latvijas Mobilais Telefons
 # SPDX-License-Identifier: Apache-2.0
+
+# LMT nRF9151 SoM configuration
 
 if SOC_NRF9151_LACA
 

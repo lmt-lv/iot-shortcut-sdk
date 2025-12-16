@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Latvijas Mobilais Telefons
+# SPDX-License-Identifier: Apache-2.0
+
 identifier: lmt_som_nrf9160_ns
 name: LMT-SoM-nRF9160-Non-Secure
 type: mcu

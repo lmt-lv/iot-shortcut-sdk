@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2022 Nordic Semiconductor
+ * Copyright (c) 2025 Latvijas Mobilais Telefons
  * SPDX-License-Identifier: Apache-2.0
  */
+
 
 &pinctrl {
 	uart0_default: uart0_default {

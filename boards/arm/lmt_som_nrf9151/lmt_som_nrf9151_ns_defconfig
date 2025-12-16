@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Latvijas Mobilais Telefons
 # SPDX-License-Identifier: Apache-2.0
 
 CONFIG_SOC_SERIES_NRF91X=y
