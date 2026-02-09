@@ -26,6 +26,3 @@ samples/el-*/
 
 # debug lmtSDK
 /lib/debug/
-
-# COAP.json
-samples/*/etc/COAP.json
