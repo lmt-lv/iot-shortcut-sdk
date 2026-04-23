@@ -18,7 +18,8 @@
 #define LMT_STORAGE_MANAGER_H
 
 #include <stdbool.h>
-#include <stdio.h>
+#include <stddef.h>
+#include <stdint.h>
 
 /** /// @private
  * @brief Wrapper function for calling rotateLogs()

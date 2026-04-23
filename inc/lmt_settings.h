@@ -17,6 +17,7 @@
 #ifndef LMT_SETTINGS_H
 #define LMT_SETTINGS_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 /**
@@ -139,6 +140,14 @@ void getCoapDeviceName(char *device_name, unsigned *len);
 const char *getCoapServerHostname(void);
 
 // Settings setter functions
+/**
+ * @brief Sets devices power option flag; it has to be set before the lmtInit().
+ * By default the device counts as battery powered.
+ *
+ * @param battery_powered_flag power option flag: true for battery powered devices.
+ */
+void setPowerOption(bool battery_powered_flag);
+
 /**
  * @brief Set the maximum size of the log file.
  *
@@ -268,7 +277,68 @@ int setLogLevel(LogLevel level);
  */
 int setActiveSim(ActiveSim sim_source);
 
+/**
+ * @brief Sets the current data upload mode
+ *
+ * @param mode Data upload mode - 0 for normal mode, 1 for raw mode (unformatted data)
+ *
+ * @return 0 on success, negative error code on failure.
+ */
+int setUlDataMode(uint8_t mode);
+
+/**
+ * @brief Set modem operating mode. Only has effect if modem is initialized after this setting is
+ * set.
+ *
+ * @param mode Set modem operating mode
+ *  0  for LTE-M;
+ *  1  for NB-IoT;
+ *  2  for LTE-M & NB-IoT (default)
+ *
+ * @return 0 on success, negative error code on failure.
+ */
+int setModemMode(unsigned mode);
+
+/**
+ * @brief Set modem LTE mode preference. Only has effect if modem mode is set to 2 (LTE-M & NB-IoT)
+ * and modem is initialized after this setting is set.
+ *
+ * @param preference Set modem LTE mode preference
+ *  0  no preference;
+ *  1  LTE-M preferred (fallback to NB-IoT if LTE-M not available) (default);
+ *  2  NB-IoT preferred (fallback to LTE-M if NB-IoT not available);
+ *  3  Network priorities override system; prefer LTE-M when equal  priority.
+ *  4  Network priorities override system; prefer NB-IoT when equal priority.
+ *
+ * @return 0 on success, negative error code on failure.
+ */
+int setModemModePreference(unsigned preference);
+
+/**
+ * @brief Set the PSM RAT (Requested Active Time) timeout value. Setting will only take effect if
+ * modem is initialized after this setting is set.
+ *
+ * Valid values are determined by T3324 timer encoding limitations:
+ * - 2 to 62 seconds: Even numbers only (2, 4, 6, 8, ..., 58, 60, 62)
+ *   Encoded with unit 000 (2-second increments)
+ * - 120 seconds: Special case (2 minutes)
+ *   Encoded with unit 001 (1-minute increments)
+ *
+ * IMPORTANT: Values from 64-118 seconds are NOT supported due to T3324 encoding gap.
+ * Values above 120 seconds are rejected.
+ *
+ * @param timeout_seconds Desired timeout in seconds
+ * @return 0 on success, -EINVAL if value is invalid, -ERANGE if value exceeds 120
+ */
+int setPsmRatTimeout(unsigned timeout_seconds);
+
 // Settings getter functions
+/**
+ * @brief Reads devices power option flag: true for battery powered devices.
+ * By default the device counts as battery powered (this function returns true).
+ */
+bool isDeviceBatteryPowered(void);
+
 /**
  * @brief Get the maximum size of the log file.
  *
@@ -361,6 +431,46 @@ LogLevel getLogLevel(void);
  * @return 0 on success, negative error code on failure.
  */
 int getActiveSim(ActiveSim *sim_source);
+
+/**
+ * @brief Get the current data upload mode
+ *
+ *  @return Data upload mode - 0 for normal mode, 1 for raw mode (unformatted data)
+ */
+uint8_t getUlDataMode(void);
+
+/**
+ * @brief Get modem operating mode
+ *
+ * @return 0 on success, negative error code on failure.
+ *  0  for LTE-M;
+ *  1  for NB-IoT;
+ *  2  for LTE-M & NB-IoT
+ */
+unsigned getModemMode(void);
+
+/**
+ * @brief Get modem LTE mode preference. Has effect only if modem mode is set to 2 (LTE-M & NB-IoT).
+ *
+ * @return  Modem LTE mode preference
+ *  0  no preference;
+ *  1  LTE-M preferred (fallback to NB-IoT if LTE-M not available);
+ *  2  NB-IoT preferred (fallback to LTE-M if NB-IoT not available);
+ *  3  Network priorities override system; prefer LTE-M when equal  priority.
+ *  4  Network priorities override system; prefer NB-IoT when equal priority.
+ */
+unsigned getModemModePreference(void);
+
+/**
+ * @brief Get the PSM RAT timeout value and its T3324 binary string representation
+ *
+ * Returns the current PSM RAT timeout in seconds and generates the corresponding
+ * T3324 binary string for use with lte_lc_psm_param_set().
+ *
+ * @param rat_string_buffer Output buffer for the 8-bit binary string (must be at least 9 bytes)
+ * @return Current PSM RAT timeout in seconds
+ */
+unsigned getPsmRatTimeout(char *rat_string_buffer);
 
 /**
  * @brief Disable serial logging output by suspending the UART device.

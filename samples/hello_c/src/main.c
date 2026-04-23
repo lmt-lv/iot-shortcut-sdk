@@ -1,11 +1,5 @@
 #include "lmt_sdk_app.h"
 
-// Do not delete the following function in order to handle the linkers error
-void force_link_k_msgq_put(struct k_msgq *q, void *data, k_timeout_t t)
-{
-    k_msgq_put(q, data, t);
-}
-
 // Feel free to edit the following file content
 
 #define MAIN_BOOT_OK_BIT FIRST_USER_STATUS_BIT  // This bit in this app indicates that app is up and running

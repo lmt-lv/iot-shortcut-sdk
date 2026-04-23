@@ -1,0 +1,7 @@
+# IoT Shortcut SoM NRF9151 board configuration
+
+# Copyright (c) 2025 Latvijas Mobilais Telefons
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_LMT9151SOM
+	select SOC_NRF9151_LACA

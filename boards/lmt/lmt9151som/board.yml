@@ -1,0 +1,7 @@
+board:
+  name: lmt9151som
+  vendor: lmt iot
+  socs:
+  - name: nrf9151
+    variants:
+    - name: 'ns'

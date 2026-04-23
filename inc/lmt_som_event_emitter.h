@@ -47,6 +47,8 @@ typedef enum
 
     EVENT_RRC_IDLE,      /**< RRC connection entered idle state. */
     EVENT_RRC_CONNECTED, /**< RRC connection entered connected state. */
+    EVENT_NETWORK_UP,    /**< Network connection established. */
+    EVENT_NETWORK_DOWN,  /**< Network connection lost. */
 
     EVENT_MODEM_ON,  /**< Modem is actively consuming power. */
     EVENT_MODEM_OFF, /**< Modem is powered off to save energy. */

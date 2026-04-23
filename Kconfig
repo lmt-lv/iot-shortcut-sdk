@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 config LMTSDK
     bool "Enable lmtSDK module"
     default y
@@ -22,8 +23,14 @@ config LMTSDK
     select NET_SOCKETS_OFFLOAD
     select NET_SOCKETS_POSIX_NAMES
     select LTE_LINK_CONTROL
+    select LTE_LC_RAI_MODULE
+    select LTE_LC_CONN_EVAL_MODULE
+    select LTE_LC_PSM_MODULE
+    select LTE_LC_EDRX_MODULE
+    select POSIX_API
     select NRF_MODEM_LIB
     select MODEM_KEY_MGMT
+    select MODEM_INFO
     select LTE_RAI_REQ
     select COAP
     select COAP_EXTENDED_OPTIONS_LEN
@@ -43,49 +50,54 @@ config LMTSDK
     select SPI_NOR
     select FLASH_JESD216_API
     select PM_PARTITION_REGION_LITTLEFS_EXTERNAL
-    select BOOTLOADER_MCUBOOT
+    select PM_OVERRIDE_EXTERNAL_DRIVER_CHECK
     select STREAM_FLASH
     select IMG_MANAGER
     select ASSERT
     select POWEROFF
+    select PM_DEVICE
+    select FPU
+    select REBOOT
 
-# # # For options that are not boolean, set defaults when LMTSDK is enabled
+if LMTSDK
 
 config NET_NATIVE
     bool
-    default n if LMTSDK
+    default n
 
 # CONFIG_LTE_PSM_REQ_RPTAU for more information
 config LTE_PSM_RPTAU
     string
-    default "00111000" if LMTSDK
-
-# CONFIG_LTE_PSM_REQ_RAT for more information
-config LTE_PSM_RAT
-    string
-    default "00000011" if LMTSDK
+    default "00111000"
 
 config COAP_EXTENDED_OPTIONS_LEN_VALUE
     int
-    default 40 if LMTSDK
+    default 40
 
 config SPI_NOR_FLASH_LAYOUT_PAGE_SIZE
     int
-    default 4096 if LMTSDK
+    default 4096
 
 config PM_PARTITION_SIZE_LITTLEFS
     hex
-    default 0x400000 if LMTSDK
+    default 0x400000
 
 config IMG_BLOCK_BUF_SIZE
     int
-    default 1024 if LMTSDK
+    default 1024
 
 config PM_EXTERNAL_FLASH_MCUBOOT_SECONDARY
     bool
-    default n if LMTSDK
+    default n
 
 choice FS_LOG_LEVEL_CHOICE
     prompt "Date Time Log Level"
-    default FS_LOG_LEVEL_OFF if LMTSDK
+    default FS_LOG_LEVEL_OFF
 endchoice
+
+choice SPI_NOR_SFDP
+    prompt "SPI NOR SFDP support"
+    default SPI_NOR_SFDP_RUNTIME
+endchoice
+
+endif # LMTSDK

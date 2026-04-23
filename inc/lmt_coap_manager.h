@@ -131,6 +131,17 @@ void triggerDataPacking(bool set_include_radio_parms);
  */
 void triggerMailer(bool trigger_radio_pata_packing);
 
+/**
+ * @brief Set raw data pointer and length
+ *
+ * @param raw_data Pointer to raw data buffer
+ * @param raw_data_len Length of the raw data
+ * @param upload Flag to trigger mailer for immediate upload of raw data
+ *
+ * @return 0 on success, negative error code on fail
+ */
+int setRawData(uint8_t *raw_data, uint16_t raw_data_len, bool upload);
+
 /** /// @private
  * @brief Function to set the firmware upgrade event
  *
