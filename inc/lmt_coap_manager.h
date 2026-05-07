@@ -118,6 +118,27 @@ void setPacketCounterLimit(uint32_t limit);
 int getNetworkQuality(int32_t *rsrp, int32_t *rsrq, int32_t *snr);
 
 /**
+ * @brief Function returns the pointer to the cached Network RSRP value
+ *
+ * @return the pointer to the cached Network RSRP value
+ */
+int16_t *getPNetworkRsrp(void);
+
+/**
+ * @brief Function returns the pointer to the cached Network RSRQ value
+ *
+ * @return the pointer to the cached Network RSRQ value
+ */
+int16_t *getPNetworkRsrq(void);
+
+/**
+ * @brief Function returns the pointer to the cached Network SNR value
+ *
+ * @return the pointer to the cached Network SNR value
+ */
+int16_t *getPNetworkSnr(void);
+
+/**
  * @brief Enable packer thread to create a CoAP message
  *
  * @param set_include_radio_parms when set, radio data will be added
@@ -130,6 +151,13 @@ void triggerDataPacking(bool set_include_radio_parms);
  * @param trigger_radio_pata_packing when set, radio data packet will be added
  */
 void triggerMailer(bool trigger_radio_pata_packing);
+
+/**
+ * @brief Clean raw data pointer and length
+ *
+ * @return 0 on success, negative error code on fail
+ */
+int cleanRawData(void);
 
 /**
  * @brief Set raw data pointer and length

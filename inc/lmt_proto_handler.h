@@ -57,8 +57,8 @@ void initDoMessage(void);
 void initProtobuf(void);
 
 /**
- * @brief Returns flag signalising that data is updated in comparison
- * to the last encoded message
+ * @brief Returns flag signalising that the unecnoded protobuf data
+ * is changed since the last encoded message is made
  *
  * @return A flag signalising that data had been changed
  */
@@ -117,11 +117,23 @@ void rewindTape(uint8_t i_tape);
 void restartMeasurements(void);
 
 /** /// @private
+ * @brief Returns the uplink message uplink event
+ */
+int getUplinkEvent(void);
+
+/** /// @private
  * @brief Sets the uplink message uplink event
  *
  * @param event Uplink event type
  */
 void setUplinkEvent(UplinkEventType event);
+
+/** /// @private
+ * @brief Returns the pointer to the created message Timestamp field
+ *
+ * @return pointer to the created message Timestamp field
+ */
+uint64_t *getPTimestamp(void);
 
 /**
  * @brief Encodes uplink message

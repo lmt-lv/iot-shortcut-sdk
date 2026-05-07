@@ -100,4 +100,10 @@ choice SPI_NOR_SFDP
     default SPI_NOR_SFDP_RUNTIME
 endchoice
 
+config COAP_QUEUE_SIZE
+    int "CoAP queue size"
+    default 96
+    help
+      Number of CoAP messages that can be queued.
+
 endif # LMTSDK

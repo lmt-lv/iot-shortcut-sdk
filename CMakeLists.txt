@@ -134,7 +134,7 @@ if(CONFIG_LMTSDK)
         add_custom_target(generate_lmt_ddt_fs ALL DEPENDS generate_lmt_ddt_fs_nvs)
     endif()
 
-    # 1. Generate json.bin from /etc
+    # Generate json.bin from /etc
     set(ETC_FOLDER "${CMAKE_SOURCE_DIR}/etc")
     set(GEN_JSON_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/gen_json_bin.py")
     set(JSON_BIN "${CMAKE_CURRENT_BINARY_DIR}/json.bin")
@@ -155,7 +155,7 @@ if(CONFIG_LMTSDK)
     add_custom_target(generate_json_bin ALL DEPENDS ${JSON_BIN})
     add_dependencies(generate_json_bin generate_lmt_ddt_fs)
 
-    # 2. Convert json.bin into a C source file containing uint8_t coap[] = { ... };
+    # Convert json.bin into a C source file containing uint8_t coap[] = { ... };
     set(VAR_NAME coap_data)
     set(BIN2C_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/bin2c_array.py")
     set(C_BIN_ARRAY_C "${LMT_GEN_C_DIR}/${VAR_NAME}_array.c")
@@ -172,12 +172,29 @@ if(CONFIG_LMTSDK)
     add_custom_target(generate_c_array ALL DEPENDS ${C_BIN_ARRAY_C} ${C_BIN_ARRAY_H})
     add_dependencies(generate_c_array generate_json_bin)
 
-    # 3. Include generated .c file in your build
+    # Generate necessary c code at app compile time
+    set(C_GLUE_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/gen_c_glue.py")
+    set(C_GLUE_C "${LMT_GEN_C_DIR}/coap_queue.c")
+    set(C_GLUE_H "${LMT_GEN_C_DIR}/coap_queue.h")
+
+    add_custom_command(
+        OUTPUT ${C_GLUE_C} ${C_GLUE_H}
+        COMMAND ${PYTHON_EXECUTABLE} ${C_GLUE_SCRIPT} -o ${LMT_GEN_C_DIR}
+        DEPENDS ${C_GLUE_SCRIPT}
+        COMMENT "Generating C glue code for lmtSDK"
+        VERBATIM
+    )
+
+    add_custom_target(generate_c_glue ALL DEPENDS ${C_GLUE_C} ${C_GLUE_H})
+    add_dependencies(generate_c_glue generate_c_array)
+
+    # Include generated .c file in your build
     set(LMTSDK_GEN_SOURCES
         ${LMT_DDT_FS_C}
         ${C_BIN_ARRAY_C}
+        ${C_GLUE_C}
     )
     target_sources(app PRIVATE ${LMTSDK_GEN_SOURCES})
     target_include_directories(app PRIVATE ${LMT_GEN_C_DIR})
-    add_dependencies(app generate_c_array)
+    add_dependencies(app generate_c_glue)
 endif()

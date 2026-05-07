@@ -72,7 +72,7 @@ def main():
         h_file.write("#include <stdint.h>\n\n")
         h_file.write(f"extern const uint8_t {var_name}[];\n")
         h_file.write(f"extern const unsigned int {var_name}_len;\n")
-        h_file.write("\n#endif\n")
+        h_file.write(f"\n#endif // {guard}\n")
 
     print(f"Generated {c_filename} and {h_filename}")
 
