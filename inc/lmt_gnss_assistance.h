@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Latvijas Mobilais Telefons
+ * Copyright 2026 Latvijas Mobilais Telefons
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-#ifndef LMTSDK_API_H
-#define LMTSDK_API_H
+#ifndef LMT_GNSS_ASSISTANCE_H_
+#define LMT_GNSS_ASSISTANCE_H_
 
-#include "lmt_coap_manager.h"
-#include "lmt_common.h"
-#include "lmt_gnss_handler.h"
-#include "lmt_proto_handler.h"
-#include "lmt_settings.h"
-#include "lmt_som_event_emitter.h"
-#include "lmt_storage_manager.h"
+#include "lmt_mcc_location_table.h"
+#include <nrf_modem_gnss.h>
 
 /**
- * @brief Initializes the SDK.
- */
-void lmtInit(void);
+ * @brief Supplies rough location and time to the nRF GNSS module using mobile network data.
+ * 
+ * @param[in] agnss_request Flags from GNSS module which AGNSS data is request.
+ * 
+ * @return 0 on success.
+*/
+int assistanceRequest(struct nrf_modem_gnss_agnss_data_frame *agnss_request);
 
-/**
- * @brief User application setup code
- */
-void setup(void);
-
-/**
- * @brief User application main control loop
- */
-void loop(void);
-
-#endif // LMTSDK_API_H
+#endif // LMT_GNSS_ASSISTANCE_H_
