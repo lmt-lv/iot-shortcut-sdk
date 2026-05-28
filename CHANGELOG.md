@@ -1,3 +1,17 @@
+## 2.0.6 (2026-05-28)
+
+
+### Bug Fixes
+
+* SIM disable detect
+
+## 2.0.5 (2026-05-28)
+
+
+### Bug Fixes
+
+* SIM disable detect
+
 ## 2.0.4 (2026-05-28)
 
 
