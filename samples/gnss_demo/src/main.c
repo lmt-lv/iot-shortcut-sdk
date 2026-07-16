@@ -6,24 +6,40 @@
  * the IoT Shortcut SDK.
  *
  */
-
 #include "lmt_sdk_app.h"
+#include <modem/modem_info.h>
 
+#define CELL_ID_TRACK_ID 0
+#define FIX_INTERVAL_S 60
+#define FIX_RETRY_S 45
+
+static struct modem_param_info modem_param_info;
 
 /**
  * @brief GNSS fix handler.
  *
  * Is called when a GNSS fix is acquired. Data from the fix is printed to the log.
+ * The current cell id and the fix data is sent to the LMT cloud.
  * 
- * @param[out] gnssOutput struct containing acquired GNSS fix data.
+ * @param[in] gnssOutput Pointer to a structure containing acquired GNSS fix data.
  */
-void handleGnssFix(GnssFix *gnssOutput)
+void handleGnssFix(const GnssFix *gnssOutput)
 {
     logInfoFormatted("%02u:%02u:%02u,%.06f,%.06f,%.06f", gnssOutput->datetime.hour,
-                     gnssOutput->datetime.minute, gnssOutput->datetime.seconds,
-gnssOutput->latitude, gnssOutput->longitude, gnssOutput->accuracy
-                    );
+                    gnssOutput->datetime.minute, gnssOutput->datetime.seconds,
+                    gnssOutput->latitude, gnssOutput->longitude, gnssOutput->accuracy);
 
+    int ret = modem_info_params_get(&modem_param_info);
+    
+    if (0 == ret)
+    {
+        int32_t Data[MAX_TRACKS_COUNT] = {0};
+        Data[CELL_ID_TRACK_ID] = (int32_t) modem_param_info.network.cellid_dec;
+        addColumnToTape(I_TAPE, FIX_INTERVAL_S, Data);
+    }
+
+    // Force send the GNSS data to the cloud
+    triggerMailer(true);
 }
 
 /**
@@ -37,12 +53,14 @@ void appInit(void)
 
 
     GnssSettings gnss_settings = {
-        .fix_interval       = 120,
-        .fix_retry          = 60,
-        .dynamics_mode      = STATIONARY,
+        .fix_interval       = FIX_INTERVAL_S,
+        .fix_retry          = FIX_RETRY_S,
+        .dynamics_mode      = GENERAL_PURPOSE,
         .callback = handleGnssFix,
     };
     startGnss(&gnss_settings);
+
+    modem_info_params_init(&modem_param_info);
 }
 
 /**

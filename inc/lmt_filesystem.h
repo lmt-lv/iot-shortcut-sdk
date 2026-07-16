@@ -19,7 +19,17 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <zephyr/fs/nvs.h>
 #include <zephyr/storage/flash_map.h>
+
+/**
+ * @brief NVS instance for the dedicated 'nvs_storage' partition.
+ *
+ * Exposed so components can persist small records that survive reboots and
+ * firmware upgrades. Record id 0xFFFE is reserved for the firmware upgrade
+ * magic byte (0xFFFF is reserved by NVS internally); do not reuse it.
+ */
+extern struct nvs_fs fs_nvs;
 
 /**
  * @brief Creates and initializes LittleFS file system.

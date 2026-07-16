@@ -17,7 +17,7 @@
 #ifndef LMT_PROTO_HANDLER_H
 #define LMT_PROTO_HANDLER_H
 
-#include "A2.pb.h"
+#include "telemetry.pb.h"
 
 // Constants from .options file not defined in generated files
 #define MAX_TRACKS_COUNT           12

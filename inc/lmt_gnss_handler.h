@@ -19,6 +19,7 @@
 #define LMT_GNSS_HANDLER_H
 
 #include "lmt_gnss_assistance.h"
+#include "telemetry.pb.h"
 #include <nrf_modem_gnss.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -44,13 +45,12 @@ typedef enum _GnssDynamicsMode
 */
 typedef struct nrf_modem_gnss_pvt_data_frame GnssFix;
 
-
 /**
  * @brief GNSS Fix obtained callback function prototype.
  * 
  * @param[in] gnss_data GNSS Fix obtained by the GNSS module.
 */
-typedef void (*GnssFixHandler)(GnssFix *gnss_data);
+typedef void (*GnssFixHandler)(const GnssFix *gnss_data);
 
 /**
  * @struct
@@ -104,20 +104,28 @@ int startGnss(GnssSettings *gnss_settings);
  * 
  * @return 0 on success.
 */
-int stopGnss();
+int stopGnss(void);
 
 /**
  * @brief Check if the GNSS module has been enabled/started, disabled/stopped.
  * 
  * @return True when GNSS is enabled, false GNSS is disabled.
 */
-bool getGnssEnabled();
+bool getGnssEnabled(void);
 
 /**
  * @brief Restart GNSS module with the settings supplied by startGnss.
  * 
  * @return 0 on success. -EPERM if no settings have been applied by startGnss.
 */
-int restartGnss();
+int restartGnss(void);
+
+/**
+ * @brief Used internally by the SDK to send GPS data to portal.
+ * 
+ * @param[out] outGPS Pointer to UplinkGPS structure to which to write GPS data.
+ * @param[out] outGPSCount 0 if no GPS data, 1 if outGPS contains GPS data.
+*/
+void getUplinkGPSMessage(UplinkGPS *outGPS, pb_size_t *outGPSCount);
 
 #endif
