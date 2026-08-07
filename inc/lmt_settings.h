@@ -28,7 +28,8 @@
  */
 typedef enum
 {
-    LOG_ERRORS = 0,
+    LOG_DISABLED,
+    LOG_ERRORS,
     LOG_WARNINGS,
     LOG_INFORMATIVE
 } LogLevel;
@@ -259,14 +260,14 @@ int setFileUlRetries(uint8_t retries);
 int setNumOfLogFiles(uint8_t file_count);
 
 /**
- * @brief Set the log level for the application.
+ * @brief Set the severity level for log messages saved by the IoT Shortcut SDK.
  *
- * @param level Log level for the application.
+ * @param level Saved log message severity level. Valid values are:
  * LOG_ERRORS, LOG_WARNINGS, LOG_INFORMATIVE.
  *
  * @return 0 on success, -EINVAL otherwise.
  */
-int setLogLevel(LogLevel level);
+int setFileLogLevel(LogLevel level);
 
 /**
  * @brief Sets the current SIM source
@@ -331,6 +332,25 @@ int setModemModePreference(unsigned preference);
  * @return 0 on success, -EINVAL if value is invalid, -ERANGE if value exceeds 120
  */
 int setPsmRatTimeout(unsigned timeout_seconds);
+
+/**
+ * @brief Set the severity level for serial log output in the IoT Shortcut SDK.
+ *
+ * @param level Serial log message severity level. Valid values are:
+ * LOG_DISABLED, LOG_ERRORS, LOG_WARNINGS, LOG_INFORMATIVE.
+ *
+ * @return 0 on success, -EINVAL otherwise.
+ */
+int setSerialLogLevel(LogLevel level);
+
+/**
+ * @brief Set the band sweep timeout value. Setting will only take effect if modem is initialized
+ * after this setting is set.
+ *
+ * @param timeout Band sweep timeout in seconds 10 <= timeout <= 255
+ * @return 0 on success, -EINVAL if value is invalid
+ */
+int setPerBandTimeout(uint8_t timeout);
 
 // Settings getter functions
 /**
@@ -421,7 +441,7 @@ uint8_t getNumOfLogFiles(void);
  *
  * @return Log level for the application.
  */
-LogLevel getLogLevel(void);
+LogLevel getFileLogLevel(void);
 
 /**
  * @brief Returns the current SIM source
@@ -473,27 +493,17 @@ unsigned getModemModePreference(void);
 unsigned getPsmRatTimeout(char *rat_string_buffer);
 
 /**
- * @brief Disable serial logging output by suspending the UART device.
+ * @brief Get the current serial log level.
  *
- * Suspends the UART device using power management to disable serial output
- * for logging and debugging. This can help reduce power consumption when
- * serial output is not needed.
- *
- * @return 0 on success, negative error code on failure.
- *         Returns -EALREADY if the device is already suspended (not treated as error).
+ * @return IoT Shortcut SDK serial log level for the serial output.
  */
-uint8_t disableSerialLog(void);
+LogLevel getSerialLogLevel(void);
 
 /**
- * @brief Enable serial logging output by resuming the UART device.
+ * @brief Get the band sweep timeout value.
  *
- * Resumes the UART device using power management to enable serial output
- * for logging and debugging. This allows real-time monitoring of device
- * operation after the UART was previously suspended.
- *
- * @return 0 on success, negative error code on failure.
- *         Returns -EALREADY if the device is already active (not treated as error).
+ * @return Band sweep timeout in seconds.
  */
-uint8_t enableSerialLog(void);
+uint8_t getPerBandTimeout(void);
 
 #endif // LMT_SETTINGS_H

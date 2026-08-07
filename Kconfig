@@ -44,7 +44,6 @@ config LMTSDK
     select FLASH
     select FLASH_MAP
     select FLASH_PAGE_LAYOUT
-    select SPI_NOR_IDLE_IN_DPD
     select NVS
     select SPI
     select SPI_NOR

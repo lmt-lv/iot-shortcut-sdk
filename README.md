@@ -43,6 +43,8 @@ The SDK includes the following sample projects:
 - **hello_c**: Simplest use case - minimal SDK initialization and basic functionality
 - **hello2_c**: Basic SDK usage with additional debugging features
 - **ek_demo**: Full-featured example with potentiometer, accelerometer (LIS3DH), and environmental sensor (BMP390) integration
+- **gnss_demo**: GNSS acquisition - starts the GNSS module and handles each fix in a callback
+- **raw_demo**: Raw uplink mode - sends unformatted payloads with `setRawData()`
 
 **Important**: All projects using the LMT Shortcut SDK must include:
 - The `sysbuild` subfolder (copy from root diretory directly to your project)

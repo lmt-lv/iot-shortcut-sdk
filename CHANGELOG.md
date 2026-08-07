@@ -1,3 +1,14 @@
+## 2.2.0 (2026-08-07)
+### Feature
+
+* Raw data mode sample project
+
+### Bug Fixes
+
+* PSM current decreased - external flash in DPD when idle. Serial log output severity changable
+* Network connection timeout settable. Fixed re-attach timeout logic
+* Weak coap_queue and coap_queue_size definition in library
+
 ## 2.1.0 (2026-07-16)
 ### Feature
 *  Sending of GPS data to cloud

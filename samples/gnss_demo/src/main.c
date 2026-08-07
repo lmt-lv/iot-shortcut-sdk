@@ -49,10 +49,8 @@ void handleGnssFix(const GnssFix *gnssOutput)
  */
 void appInit(void)
 {
-    enableSerialLog();
-
-
-    GnssSettings gnss_settings = {
+    GnssSettings gnss_settings =
+    {
         .fix_interval       = FIX_INTERVAL_S,
         .fix_retry          = FIX_RETRY_S,
         .dynamics_mode      = GENERAL_PURPOSE,

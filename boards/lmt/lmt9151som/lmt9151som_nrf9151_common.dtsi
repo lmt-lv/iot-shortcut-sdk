@@ -2,7 +2,7 @@
  * Copyright (c) 2025 Latvijas Mobilais Telefons
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 #include "lmt9151som_nrf9151_common-pinctrl.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
@@ -78,12 +78,15 @@
 	pinctrl-1 = <&spi2_sleep>;
 	pinctrl-names = "default", "sleep";
 	ext_flash: ext_flash@0 {
+		label = "EXT_FLASH";
 		compatible = "jedec,spi-nor";
 		reg = <0>;
 		spi-max-frequency = <8000000>;
 		wp-gpios = < &gpio0 6 GPIO_ACTIVE_LOW >;
 		hold-gpios = < &gpio0 3 GPIO_ACTIVE_LOW >;
 		size = <33554432>;
+		t-enter-dpd = <10000>;   /* 10 µs  >= tDP  of both IS25LP032D & MX25L3233F */
+		t-exit-dpd  = <30000>;   /* 30 µs  >= tRES1 of both*/
 		has-dpd;
 	};
 };
