@@ -1,4 +1,4 @@
-## 2.3.0 (2026-09-08)
+## 2.3.0 (2026-09-08) 
 ### Feature
 
 * User can create custom event
