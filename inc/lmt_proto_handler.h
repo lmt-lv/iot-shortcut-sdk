@@ -33,6 +33,20 @@
 #define FW_PATH_OFFSET             3
 /** @endcond */
 
+typedef enum
+{
+    EventSeverity_NOT_SPECIFIED = -1,
+    EventSeverity_INFO,
+    EventSeverity_WARNING,
+    EventSeverity_ERROR,
+    EventSeverity_CRITICAL
+} EventSeverity;
+
+_Static_assert((int)EventSeverity_INFO     == (int)CustomEventSeverity_INFO,     "severity out of sync");
+_Static_assert((int)EventSeverity_WARNING  == (int)CustomEventSeverity_WARNING,  "severity out of sync");
+_Static_assert((int)EventSeverity_ERROR    == (int)CustomEventSeverity_ERROR,    "severity out of sync");
+_Static_assert((int)EventSeverity_CRITICAL == (int)CustomEventSeverity_CRITICAL, "severity out of sync");
+
 /**
  * @brief Dumps in HEX the memory region at the given address of the given size
  *
@@ -177,5 +191,17 @@ bool isUdpPacketFull(void);
  * @return success flag
  */
 bool decodeMessage(const uint8_t *p_buffer);
+
+/**
+ * @brief Create and send custom event
+ * 
+ * @param event Custom event name. Max length 32 bytes including null terminator
+ * @param value Custom event value string optional. Max length 32 bytes including null terminator NULL if not used
+ * @param time Custom event timestamp optonal. 0 if timestamp is not used
+ * @param severity Custom event severity level. Use NOT_SPECIFIED if not used
+ * 
+ * @return 0 on success
+ */
+int sendCustomEvent(const char *event, const char *value, uint64_t time, EventSeverity severity);
 
 #endif // LMT_PROTO_HANDLER_H

@@ -1,3 +1,9 @@
+## 2.3.0 (2026-09-08)
+### Feature
+
+* User can create custom event
+* Custom event usage sample
+
 ## 2.2.0 (2026-08-07)
 ### Feature
 

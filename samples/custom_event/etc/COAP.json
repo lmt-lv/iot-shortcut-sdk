@@ -1,0 +1,7 @@
+{
+  "SERVER_HOSTNAME": "coaps.lmt-iot.com",
+  "SERVER_PORT": 5784,
+  "COAP_TX_RESOURCE": "sh",
+  "COAP_TX_FILE_RESOURCE": "files",
+  "COAP_TX_FW_RESOURCE": "fw"
+}
