@@ -22,11 +22,11 @@
 
 /**
  * @brief Supplies rough location and time to the nRF GNSS module using mobile network data.
- * 
+ *
  * @param[in] agnss_request Flags from GNSS module which AGNSS data is request.
- * 
+ *
  * @return 0 on success.
-*/
+ */
 int assistanceRequest(struct nrf_modem_gnss_agnss_data_frame *agnss_request);
 
 #endif // LMT_GNSS_ASSISTANCE_H_

@@ -21,6 +21,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/**
+ * @brief Check if flash operations are available
+ *
+ * @return true if flash is working, false if bypassed
+ */
+bool isFlashAvailable(void);
+
 /** /// @private
  * @brief Wrapper function for calling rotateLogs()
  */
@@ -33,7 +40,7 @@ void timestampLogName(void);
  * @param code Error code.
  * @return 0 on success, negative value on fail
  */
-int logError(char *text, int code);
+int logError(const char *text, int code);
 
 /**
  * @brief Writes warning to app.log file.
@@ -41,7 +48,7 @@ int logError(char *text, int code);
  * @param text Warning string.
  * @return 0 on success, negative value on fail
  */
-int logWarning(char *text);
+int logWarning(const char *text);
 
 /**
  * @brief Logs the given buffer as hex string
@@ -49,7 +56,7 @@ int logWarning(char *text);
  * @param payload pointer to the buffer
  * @param message_length buffer size
  */
-void logStringHex(uint8_t *payload, uint8_t message_length);
+void logStringHex(const uint8_t *payload, uint8_t message_length);
 
 /**
  * @brief Variadic function for writing formatted info to app.log file.
@@ -57,7 +64,7 @@ void logStringHex(uint8_t *payload, uint8_t message_length);
  * @param text info message string.
  * @return 0 on success, negative value on fail
  */
-int logInfoFormatted(char *text, ...);
+int logInfoFormatted(const char *text, ...);
 
 /**
  * @brief Function for writing informative string to app.log file.
@@ -67,7 +74,7 @@ int logInfoFormatted(char *text, ...);
  * @param text info message string.
  * @return 0 on success, negative value on fail
  */
-int logInfo(char *text);
+int logInfo(const char *text);
 
 /**
  * @brief Writes current device settings in JSON format to settings.txt file.

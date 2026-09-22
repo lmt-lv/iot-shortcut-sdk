@@ -26,36 +26,40 @@
 
 /**
  * @brief Wrapper enum for nrf modem GNSS dynamics mode.
- * 
+ *
  * Used to provide the nrf modem with the expected movement type of the device
  * to optimize fix acquisition time.
-*/
+ */
 typedef enum _GnssDynamicsMode
 {
-    GENERAL_PURPOSE = NRF_MODEM_GNSS_DYNAMICS_GENERAL_PURPOSE, /** General purpose mode. Assumed maximum speed 100 km/h. */
-    STATIONARY = NRF_MODEM_GNSS_DYNAMICS_STATIONARY, /** Optimize for stationary use case. Assumed maximum speed 3 km/h. */
-    PEDESTRIAN = NRF_MODEM_GNSS_DYNAMICS_PEDESTRIAN, /** Optimize for pedestrian use case. Assumed maximum speed 30 km/h. */
-    AUTOMOTIVE = NRF_MODEM_GNSS_DYNAMICS_AUTOMOTIVE, /**  Optimize for automotive use case. Assumed maximum speed > 100 km/h */
+    GENERAL_PURPOSE = NRF_MODEM_GNSS_DYNAMICS_GENERAL_PURPOSE, /** General purpose mode. Assumed
+                                                                  maximum speed 100 km/h. */
+    STATIONARY = NRF_MODEM_GNSS_DYNAMICS_STATIONARY, /** Optimize for stationary use case. Assumed
+                                                        maximum speed 3 km/h. */
+    PEDESTRIAN = NRF_MODEM_GNSS_DYNAMICS_PEDESTRIAN, /** Optimize for pedestrian use case. Assumed
+                                                        maximum speed 30 km/h. */
+    AUTOMOTIVE = NRF_MODEM_GNSS_DYNAMICS_AUTOMOTIVE, /**  Optimize for automotive use case. Assumed
+                                                        maximum speed > 100 km/h */
 } GnssDynamicsMode;
 
 /**
  * @brief Wrapper type for nrf GNSS data frame
- * 
+ *
  * Used in the user-provided callback function to supply the obtained fix.
-*/
+ */
 typedef struct nrf_modem_gnss_pvt_data_frame GnssFix;
 
 /**
  * @brief GNSS Fix obtained callback function prototype.
- * 
+ *
  * @param[in] gnss_data GNSS Fix obtained by the GNSS module.
-*/
+ */
 typedef void (*GnssFixHandler)(const GnssFix *gnss_data);
 
 /**
  * @struct
  * @brief Struct containing GNSS operation settings.
-*/
+ */
 typedef struct _GnssSettings
 {
     /**
@@ -71,61 +75,65 @@ typedef struct _GnssSettings
      *       (when no fix is found) in continous attempts to find a fix which
      *       is not recommended due to increased power consumption of the
      *       GNSS module.
-    */
+     */
     uint16_t fix_interval;
     /**
      * @brief Fix Retry is the maximum time in seconds that will be spent to
      *        attempt to aquire a location(fix). For the first fix this will
      *        be 60 seconds and cannot be changed. Afterwards the supplied
      *        value is used.
-    */
+     */
     uint16_t fix_retry;
     /**
      * @brief GNSS Dynamics mode - optimize GNSS module based on device usage.
-    */
+     */
     GnssDynamicsMode dynamics_mode;
     /**
      * @brief Callback when GNSS location (fix) data is received.
-    */
+     */
     GnssFixHandler callback;
 } GnssSettings;
 
 /**
  * @brief Start Acquiring GNSS location data.
- * 
+ *
  * @param[in] gnss_settings GNSS settings to apply to the GNSS module.
- * 
+ *
  * @return 0 on success.
-*/
+ */
 int startGnss(GnssSettings *gnss_settings);
 
 /**
  * @brief  Stop Acquiring GNSS location data.
- * 
+ *
  * @return 0 on success.
-*/
+ */
 int stopGnss(void);
 
 /**
- * @brief Check if the GNSS module has been enabled/started, disabled/stopped.
- * 
- * @return True when GNSS is enabled, false GNSS is disabled.
-*/
-bool getGnssEnabled(void);
+ * @brief Check whether the GNSS module is currently running.
+ *
+ * Reflects the module state, not a configuration preference: it turns true once
+ * @c startGnss() has started the receiver and false once @c stopGnss() has
+ * stopped it. For the configured GNSS setting see @c isGnssEnabled().
+ *
+ * @return True while GNSS is running, false once it is stopped.
+ */
+bool isGnssActive(void);
 
 /**
  * @brief Restart GNSS module with the settings supplied by startGnss.
- * 
+ *
  * @return 0 on success. -EPERM if no settings have been applied by startGnss.
-*/
+ */
 int restartGnss(void);
 
 /**
  * @brief Used internally by the SDK to send GPS data to portal.
- * 
+ *
  * @param[out] outGPS Pointer to UplinkGPS structure to which to write GPS data.
  * @param[out] outGPSCount 0 if no GPS data, 1 if outGPS contains GPS data.
-*/
+ */
 void getUplinkGPSMessage(UplinkGPS *outGPS, pb_size_t *outGPSCount);
 
-#endif
+#endif // LMT_GNSS_HANDLER_H

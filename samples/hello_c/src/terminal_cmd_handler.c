@@ -12,7 +12,7 @@
 
 #define PRE_REBOOT_DELAY K_SECONDS(10)
 
-int runTerminalCmd(uint8_t *cmd, uint8_t cmd_len)
+int runTerminalCmd(const uint8_t *cmd, uint8_t cmd_len)
 {
     int err = 0;
 

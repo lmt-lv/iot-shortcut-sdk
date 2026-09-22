@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2025 Latvijas Mobilais Telefons
+# Copyright 2026 Latvijas Mobilais Telefons
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import argparse
 HEADER_TEMPLATE = """#ifndef {guard}
 #define {guard}
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #if defined(CONFIG_COAP_QUEUE_SIZE)
@@ -31,15 +32,29 @@ HEADER_TEMPLATE = """#ifndef {guard}
 extern uint8_t {name}[];
 extern const unsigned int {name}_size;
 
+/**
+ * @brief Checks if the lmtSDK is compatible with the application at the structure size level.
+ * Used for lmtSDK and app compatibility test.
+ *
+ * @return true if test passed, flase otherwise.
+ */
+bool isLmtSdkCompatible(void);
+
 #endif // {guard}
 """
 
-SOURCE_TEMPLATE = """#include <stdint.h>
-#include "{name}.h"
+SOURCE_TEMPLATE = """#include "{name}.h"
 #include "lmt_coap_manager.h"
+#include "lmt_sdk_api.h"
 
 uint8_t {name}[MAX_COUNT_OF_COAP_REQUESTS * APP_COAP_MAX_MSG_LEN];
 const unsigned int {name}_size = MAX_COUNT_OF_COAP_REQUESTS * APP_COAP_MAX_MSG_LEN;
+
+bool isLmtSdkCompatible(void)
+{{
+    return sizeof(struct k_thread) == getLmtSdkApiThreadSize() &&
+        sizeof(struct k_work_q) == getLmtSdkApiWorkqSize();
+}}
 """
 
 def main():

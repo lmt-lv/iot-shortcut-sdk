@@ -79,16 +79,16 @@ void appInit(void)
  * Full list of available events is in `lmt_som_event_emitter.h`.
  *
  * To handle an event, simply implement its callback function with the signature:
- *   void onEventName(void *p_data, int i_data)
+ *   void onEventName(const void *p_data, int i_data)
  *
  * Unimplemented callbacks are ignored by the SDK.
  */
-void onDeviceInitOk(void *p_data, int i_data)
+void onDeviceInitOk(const void *p_data, int i_data)
 {
     logInfo("All system parts initialized successfully");
 }
 
-void onTerminalCmd(void *p_data, int i_data)
+void onTerminalCmd(const void *p_data, int i_data)
 {
     // Perform the requested command and send the result
     sendEventCmdRes(runTerminalCmd(p_data, i_data));
@@ -139,8 +139,8 @@ void readAndRecordData(void)
     error = addColumnToTape(I_TAPE, DATA_READ_PERIOD, Data);
     if(error == 0)
     {
-        // If the buffer is full, trigger data packing (prepares data for sending)
-        triggerDataPacking(false); // No radio data
+        // If the buffer is full, trigger packing (prepares data for sending)
+        triggerPacking(false); // No radio data
     }
     else if(error < 0)
     {

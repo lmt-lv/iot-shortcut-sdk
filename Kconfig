@@ -64,11 +64,6 @@ config NET_NATIVE
     bool
     default n
 
-# CONFIG_LTE_PSM_REQ_RPTAU for more information
-config LTE_PSM_RPTAU
-    string
-    default "00111000"
-
 config COAP_EXTENDED_OPTIONS_LEN_VALUE
     int
     default 40

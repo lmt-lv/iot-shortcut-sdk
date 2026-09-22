@@ -188,13 +188,30 @@ if(CONFIG_LMTSDK)
     add_custom_target(generate_c_glue ALL DEPENDS ${C_GLUE_C} ${C_GLUE_H})
     add_dependencies(generate_c_glue generate_c_array)
 
+    # Generate the strong kernel object port
+    set(GEN_C_PORT_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/gen_c_port.py")
+    set(C_PORT_C "${LMT_GEN_C_DIR}/lmt_port_ncs.c")
+    set(C_PORT_H "${LMT_GEN_C_DIR}/lmt_port_ncs.h")
+
+    add_custom_command(
+        OUTPUT ${C_PORT_C} ${C_PORT_H}
+        COMMAND ${PYTHON_EXECUTABLE} ${GEN_C_PORT_SCRIPT} -o ${LMT_GEN_C_DIR} -n lmt_port_ncs
+        DEPENDS ${GEN_C_PORT_SCRIPT}
+        COMMENT "Generating lmt_port_ncs.c/.h with strong linkage for lmtSDK"
+        VERBATIM
+    )
+
+    add_custom_target(generate_c_port ALL DEPENDS ${C_PORT_C} ${C_PORT_H})
+    add_dependencies(generate_c_port generate_c_glue)
+
     # Include generated .c file in your build
     set(LMTSDK_GEN_SOURCES
         ${LMT_DDT_FS_C}
         ${C_BIN_ARRAY_C}
         ${C_GLUE_C}
+        ${C_PORT_C}
     )
     target_sources(app PRIVATE ${LMTSDK_GEN_SOURCES})
     target_include_directories(app PRIVATE ${LMT_GEN_C_DIR})
-    add_dependencies(app generate_c_glue)
+    add_dependencies(app generate_c_port)
 endif()

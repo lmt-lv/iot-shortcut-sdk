@@ -1,5 +1,5 @@
 {
-  "SERVER_HOSTNAME": "coaps.multisensors-dev1.cloud1-test.lmt.lv",
+  "SERVER_HOSTNAME": "coaps.lmt-iot.com",
   "SERVER_PORT": 5784,
   "COAP_TX_RESOURCE": "sh",
   "COAP_TX_FILE_RESOURCE": "files",

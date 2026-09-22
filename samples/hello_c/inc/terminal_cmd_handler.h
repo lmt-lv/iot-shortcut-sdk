@@ -8,6 +8,6 @@
  *
  * @return 0 on success, negative error code on fail
  */
-int runTerminalCmd(uint8_t *cmd, uint8_t cmd_len);
+int runTerminalCmd(const uint8_t *cmd, uint8_t cmd_len);
 
 #endif // TERMINAL_CMD_HANDLER_H

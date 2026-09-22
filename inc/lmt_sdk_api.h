@@ -20,10 +20,27 @@
 #include "lmt_coap_manager.h"
 #include "lmt_common.h"
 #include "lmt_gnss_handler.h"
+#include "lmt_port_ncs.h"
 #include "lmt_proto_handler.h"
 #include "lmt_settings.h"
 #include "lmt_som_event_emitter.h"
 #include "lmt_storage_manager.h"
+
+/**
+ * @brief Returns the sizeof(struct k_thread) at the library build time.
+ * Used for compatibility test.
+ *
+ * @return sizeof(struct k_thread)
+ */
+size_t getLmtSdkApiThreadSize(void);
+
+/**
+ * @brief Returns the sizeof(struct k_work_q) at the library build time.
+ * Used for compatibility test.
+ *
+ * @return sizeof(struct k_work_q)
+ */
+size_t getLmtSdkApiWorkqSize(void);
 
 /**
  * @brief Initializes the SDK.

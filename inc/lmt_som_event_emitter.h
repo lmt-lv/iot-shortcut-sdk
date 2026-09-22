@@ -65,7 +65,7 @@ typedef enum
     EVENT_COUNT         /**< Event count. */
 } SomEvent;
 
-typedef void (*EventHandler)(void *p_data, int i_data);
+typedef void (*EventHandler)(const void *p_data, int i_data);
 
 /**
  * @brief Centralized event handler for the library.
@@ -76,6 +76,6 @@ typedef void (*EventHandler)(void *p_data, int i_data);
  * @param i_data Optional integer data associated with the event
  * if specified in the event description (e.g., length of the data).
  */
-void handleSomEvent(SomEvent event, void *p_data, int i_data);
+void handleSomEvent(SomEvent event, const void *p_data, int i_data);
 
 #endif // LMT_SOM_EVENTS_EMITTER_H

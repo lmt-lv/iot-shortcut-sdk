@@ -50,7 +50,7 @@ _Static_assert((int)EventSeverity_CRITICAL == (int)CustomEventSeverity_CRITICAL,
 /**
  * @brief Dumps in HEX the memory region at the given address of the given size
  *
- * @param *ptr The starting memory address
+ * @param ptr The starting memory address
  * @param size The size of the memory dump
  */
 void dumpMemory(uint8_t *ptr, uint16_t size);
@@ -71,8 +71,8 @@ void initDoMessage(void);
 void initProtobuf(void);
 
 /**
- * @brief Returns flag signalising that the unecnoded protobuf data
- * is changed since the last encoded message is made
+ * @brief Returns flag signalising that the unencoded protobuf data
+ * is changed since the last encoded message has been made
  *
  * @return A flag signalising that data had been changed
  */
@@ -114,9 +114,9 @@ int addColumnToTape(uint8_t i_tape, uint32_t period, int32_t *p_measurements);
  *
  * @param i_tape the Tape index
  *
- * @return Column count in Tape
+ * @return Column count in Tape, -EINVAL if i_tape is out of range
  */
-pb_size_t getTapeRecordsCount(uint8_t i_tape);
+int getTapeRecordsCount(uint8_t i_tape);
 
 /**
  * @brief Resets the Tape keeping the last period entry
@@ -132,6 +132,8 @@ void restartMeasurements(void);
 
 /** /// @private
  * @brief Returns the uplink message uplink event
+ *
+ * @return Server Initiated Action ID
  */
 int getUplinkEvent(void);
 
@@ -150,18 +152,19 @@ void setUplinkEvent(UplinkEventType event);
 uint64_t *getPTimestamp(void);
 
 /**
- * @brief Encodes uplink message
+ * @brief Encodes uplink message.
+ * Sets the out_message_length value. Resets f_data_changed flag.
  *
- * @return success flag
+ * @return Zero on success, -EFAULT otherwise.
  */
-bool encodeMessage(void);
+int encodeMessage(void);
 
 /**
  * @brief Get encoded message length
  *
  * @return Current encoded message length
  */
-uint16_t getEncodedMsgLen(void);
+int getEncodedMsgLen(void);
 
 /**
  * @brief Get pointer to encoded message buffer

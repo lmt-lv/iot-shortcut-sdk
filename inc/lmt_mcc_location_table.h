@@ -25,7 +25,7 @@
 
 /**
  * @brief Struct for mccTable entries.
-*/
+ */
 struct __attribute__((__packed__)) mccTable
 {
     uint8_t confidence;    /* percentage, 0-100 */

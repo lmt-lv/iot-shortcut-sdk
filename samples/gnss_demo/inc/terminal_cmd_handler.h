@@ -21,6 +21,6 @@
  * @param cmd_len Number of bytes in the command
  * @return 0 on success, negative error code on failure
  */
-int runTerminalCmd(uint8_t *cmd, uint8_t cmd_len);
+int runTerminalCmd(const uint8_t *cmd, uint8_t cmd_len);
 
 #endif // TERMINAL_CMD_HANDLER_H
