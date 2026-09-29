@@ -26,6 +26,8 @@ extern struct k_thread *p_logger_thread_data;
 extern struct k_thread *p_packer_thread_data;
 extern struct k_thread *p_mailer_thread_data;
 
+extern struct k_work_q *p_gnss_work_q;
+
 #endif // {guard}
 """
 
@@ -40,9 +42,13 @@ static struct k_thread logger_thread_data;
 static struct k_thread packer_thread_data;
 static struct k_thread mailer_thread_data;
 
+static struct k_work_q gnss_work_q;
+
 {weak}struct k_thread *p_logger_thread_data = &logger_thread_data;
 {weak}struct k_thread *p_packer_thread_data = &packer_thread_data;
 {weak}struct k_thread *p_mailer_thread_data = &mailer_thread_data;
+
+{weak}struct k_work_q *p_gnss_work_q = &gnss_work_q;
 """
 
 

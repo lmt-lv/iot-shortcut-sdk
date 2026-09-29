@@ -139,7 +139,7 @@ const char *getCoapServerHostname(void);
  * @brief Get the configured device name used in COAP.
  *
  * @param device_name Pointer to a buffer where the device name will be stored.
- * @param len Length pointer holds in/out buffer size.
+ * @param len In: size of device_name. Out: serial number length. 0 on error
  */
 void getCoapDeviceName(char *device_name, unsigned *len);
 

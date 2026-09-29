@@ -66,16 +66,28 @@ bool isThisFwNtn(void);
 /**
  * @brief Checks whether the device is registered on a cell
  *
- * Reports the registration state as tracked from the LTE events, which is not
- * the same as reachability: a registered device asleep in PSM answers true, and
- * so does one whose CoAP socket is closed. Nor is it "the modem is up" - see
- * isModemInitialized(), which stays true at CFUN=4 with the radio off.
+ * Reflects LTE registration only, not whether data can be sent right now:
+ * a registered device returns true even while in PSM or with its CoAP
+ * socket closed.
+ * If the cached state indicates registration, it is confirmed with an AT
+ * query, so the call may block for an AT round trip.
  *
  * @return true while the device is registered on a cell, false otherwise
  *
  * @see isSocketConnected(), isModemInitialized()
  */
 bool isCellConnected(void);
+
+/**
+ * @brief Checks whether the modem has completed a frequency sweep
+ *
+ * Set when the modem reports a finished deep search, cleared when registration
+ * is lost or the modem is shut down, both of which start a new search. True
+ * with no cell means the radio swept every frequency and found none.
+ *
+ * @return true while the last search is known to have finished
+ */
+bool isScanEnded(void);
 
 /**
  * @brief Checks whether the CoAP socket to the server is open
@@ -102,8 +114,10 @@ bool isModemInitialized(void);
 /**
  * @brief Reads device serial number (SN).
  *
+ * Brings the modem library up when it is down.
+ *
  * @param sn_buffer Pointer to store the SN.
- * @param buffer_size Pointer to buffer size; updated with actual SN length.
+ * @param buffer_size In: the size of sn_buffer. Out: serial number length. 0 on error.
  */
 void getDeviceSN(char *sn_buffer, size_t *buffer_size);
 

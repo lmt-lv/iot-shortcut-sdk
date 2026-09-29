@@ -1,3 +1,9 @@
+## 2.4.1 (2026--09-29)
+### Bug Fixes
+* GNSS work queue allocated in application build
+* Allow set LTE preference in LTE-M and NB-IoT only modes
+* Read device serial number and allow sending custom modem commands before modem initialization
+
 ## 2.4.0 (2026--09-22)
 ### Feature
 * NTN (satellite NB-IoT) support, with modem hardware and firmware capability checks
