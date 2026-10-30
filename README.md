@@ -50,6 +50,19 @@ The SDK includes the following sample projects:
 - The `sysbuild.conf` file for multi-image build configuration (copy from any sample directly to your project)
 - The `etc/COAP.json` configuration file (see samples for reference)
 
+## Production Build
+To generate a single `merged.hex` start a toolchain terminal from the nRF Connect extension Actions window
+or run the command:
+   ```bash
+   nrfutil sdk-manager toolchain launch --ncs-version vX.X.X --shell
+   ```
+ and run the `west ncs-mergehex` command from a samples or projects root folder:
+   ```bash
+   west ncs-mergehex -d build --no-rebuild
+   ```
+The `-d` flag specifies the build folder of the project. A single `merged.hex` will be generated containing the
+hex files specified in the projects `mergehex.yaml`.
+
 ## Acknowledgments
 Built on Nordic Semiconductor's nRF Connect SDK.
 
