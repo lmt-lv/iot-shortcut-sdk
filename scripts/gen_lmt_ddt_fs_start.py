@@ -31,7 +31,7 @@ def main():
  */
 
 #include <zephyr/fs/fs.h>
-#include <zephyr/fs/nvs.h>
+#include <zephyr/kvss/nvs.h>
 #include <zephyr/fs/littlefs.h>
 
 """

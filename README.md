@@ -14,8 +14,8 @@ IoT Shortcut SoM and SDK is designed to accelerate time-to-market by streamlinin
 
 ### Software
 - VS Code
-- nRF Connect SDK 3.2.4
-- nRF Connect SDK Toolchain 3.2.4
+- nRF Connect SDK 3.4.1
+- nRF Connect SDK Toolchain 3.4.1
 
 ## Installation
 
@@ -41,14 +41,13 @@ Add the IoT Shortcut SDK boards definition folder to the nRF Connect SDK configu
 ## Samples
 The SDK includes the following sample projects:
 - **hello_c**: Simplest use case - minimal SDK initialization and basic functionality
-- **hello2_c**: Basic SDK usage with additional debugging features
 - **ek_demo**: Full-featured example with potentiometer, accelerometer (LIS3DH), and environmental sensor (BMP390) integration
 - **gnss_demo**: GNSS acquisition - starts the GNSS module and handles each fix in a callback
 - **raw_demo**: Raw uplink mode - sends unformatted payloads with `setRawData()`
 
 **Important**: All projects using the LMT Shortcut SDK must include:
-- The `sysbuild` subfolder (copy from root diretory directly to your project)
-- The `sysbuild.conf` file for multi-image build configuration (copy from root diretory directly to your project)
+- The `sysbuild` subfolder (copy from any sample directly to your project)
+- The `sysbuild.conf` file for multi-image build configuration (copy from any sample directly to your project)
 - The `etc/COAP.json` configuration file (see samples for reference)
 
 ## Acknowledgments
@@ -57,4 +56,4 @@ Built on Nordic Semiconductor's nRF Connect SDK.
 ## License
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
-Copyright 2025 Latvijas Mobilais Telefons
+Copyright 2026 Latvijas Mobilais Telefons

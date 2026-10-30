@@ -19,8 +19,11 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include <zephyr/fs/nvs.h>
+#include <zephyr/fs/fs.h>
+#include <zephyr/kvss/nvs.h>
+#include <zephyr/fs/littlefs.h>
 #include <zephyr/storage/flash_map.h>
+
 
 /**
  * @brief NVS instance for the dedicated 'nvs_storage' partition.

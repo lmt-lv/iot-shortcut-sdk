@@ -89,6 +89,8 @@ typedef struct _Uplink {
     UplinkGPS UplinkGPS[1];
     pb_size_t UplinkCustomEvent_count;
     UplinkCustomEvent UplinkCustomEvent[1];
+    bool has_FirmwareVersion;
+    char FirmwareVersion[16];
 } Uplink;
 
 typedef struct _Downlink {
@@ -135,7 +137,7 @@ extern "C" {
 #define UplinkEvent_init_default                 {_UplinkEventType_MIN, 0}
 #define UplinkGPS_init_default                   {0, 0, 0, 0}
 #define UplinkCustomEvent_init_default           {"", false, "", false, 0, false, _CustomEventSeverity_MIN}
-#define Uplink_init_default                      {0, {Data_init_default}, 0, {Network_init_default}, {UplinkEvent_init_default}, 0, {UplinkGPS_init_default}, 0, {UplinkCustomEvent_init_default}}
+#define Uplink_init_default                      {0, {Data_init_default}, 0, {Network_init_default}, {UplinkEvent_init_default}, 0, {UplinkGPS_init_default}, 0, {UplinkCustomEvent_init_default}, false, ""}
 #define Downlink_init_default                    {_DownlinkActionType_MIN, ""}
 #define Period_init_zero                         {0, 0, 0}
 #define Column_init_zero                         {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
@@ -144,7 +146,7 @@ extern "C" {
 #define UplinkEvent_init_zero                    {_UplinkEventType_MIN, 0}
 #define UplinkGPS_init_zero                      {0, 0, 0, 0}
 #define UplinkCustomEvent_init_zero              {"", false, "", false, 0, false, _CustomEventSeverity_MIN}
-#define Uplink_init_zero                         {0, {Data_init_zero}, 0, {Network_init_zero}, {UplinkEvent_init_zero}, 0, {UplinkGPS_init_zero}, 0, {UplinkCustomEvent_init_zero}}
+#define Uplink_init_zero                         {0, {Data_init_zero}, 0, {Network_init_zero}, {UplinkEvent_init_zero}, 0, {UplinkGPS_init_zero}, 0, {UplinkCustomEvent_init_zero}, false, ""}
 #define Downlink_init_zero                       {_DownlinkActionType_MIN, ""}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -173,6 +175,7 @@ extern "C" {
 #define Uplink_UplinkEvents_tag                  4
 #define Uplink_UplinkGPS_tag                     5
 #define Uplink_UplinkCustomEvent_tag             6
+#define Uplink_FirmwareVersion_tag               7
 #define Downlink_Action_tag                      1
 #define Downlink_ActionParameters_tag            2
 
@@ -232,7 +235,8 @@ X(a, STATIC,   FIXARRAY, MESSAGE,  Tape,              2) \
 X(a, STATIC,   REPEATED, MESSAGE,  Connection,        3) \
 X(a, STATIC,   FIXARRAY, MESSAGE,  UplinkEvents,      4) \
 X(a, STATIC,   REPEATED, MESSAGE,  UplinkGPS,         5) \
-X(a, STATIC,   REPEATED, MESSAGE,  UplinkCustomEvent,   6)
+X(a, STATIC,   REPEATED, MESSAGE,  UplinkCustomEvent,   6) \
+X(a, STATIC,   OPTIONAL, STRING,   FirmwareVersion,   7)
 #define Uplink_CALLBACK NULL
 #define Uplink_DEFAULT NULL
 #define Uplink_Tape_MSGTYPE Data
@@ -274,11 +278,11 @@ extern const pb_msgdesc_t Downlink_msg;
 #define Downlink_size                            260
 #define Network_size                             33
 #define Period_size                              23
-#define SRC_SIMPLE_PB_H_MAX_SIZE                 Uplink_size
+#define TELEMETRY_PB_H_MAX_SIZE                  Uplink_size
 #define UplinkCustomEvent_size                   79
 #define UplinkEvent_size                         13
 #define UplinkGPS_size                           34
-#define Uplink_size                              7011
+#define Uplink_size                              7028
 
 #ifdef __cplusplus
 } /* extern "C" */

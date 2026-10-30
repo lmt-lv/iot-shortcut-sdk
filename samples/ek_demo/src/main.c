@@ -13,6 +13,8 @@
 #include "lis3dh.h"          // For reading acceleration from LIS3DH sensor
 #include "lmt_sdk_app.h"     // Main application header (includes core SDK and command handler)
 
+#define FW_VERSION "1.0.0"
+
 // Thread priorities: lower number = higher priority
 #define PRIORITY_LIS3DH  1 // High priority for accelerometer task
 #define PRIORITY_ADC_PWM 6 // Lower priority for ADC/PWM task
@@ -36,13 +38,13 @@ static struct k_thread adc_pwm_thread_data;
 /**
  * @brief Application setup/init code
  *
- * This function sets up the system, initializes BMP390 sensor, and starts background tasks
- * (threads). It also sets a status bit to indicate the main application started successfully.
+ * This function sets up the system, initializes BMP390 sensor 
+ * and starts background tasks (threads). 
+ * It also sets a status bit to indicate the main application started successfully.
  */
 void appInit(void)
 {
     int err = 0;
-
     // Set the boot OK mask: when all required modules are initialized,
     // the system will generate an EVENT_DEVICE_INIT_OK event.
     setUserBootOkMask(APP_BOOT_OK);
@@ -163,6 +165,14 @@ int main(void)
 {
     int64_t start_tick = 0;
     int64_t end_tick   = 0;
+
+    // Set claim token UUID; the portal uses it to auto-claim the device
+    // to a specific tenant and device type. 
+    // To take effect provide your actual claim token UUID.
+    setClaimTokenUuid("00000000-0000-0000-0000-000000000000");
+
+    // Set firmware version so its uploaded to portal
+    addFWVersionToUpMessage(FW_VERSION);
 
     // Set uplink period in minutes(how often data is sent to server)
     setUplinkTimeout(5);

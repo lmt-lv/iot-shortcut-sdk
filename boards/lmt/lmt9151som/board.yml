@@ -1,5 +1,6 @@
 board:
   name: lmt9151som
+  full_name: "LMT IoT SoM nRF9151"
   vendor: lmt iot
   socs:
   - name: nrf9151

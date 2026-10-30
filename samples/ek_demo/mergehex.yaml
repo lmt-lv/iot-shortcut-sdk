@@ -1,0 +1,6 @@
+merged.hex:
+  - signed_by_b0_mcuboot.hex
+  - b0/zephyr/zephyr.hex
+  - signed_by_b0_mcuboot_s1_variant.hex
+  - ek_demo/zephyr/zephyr.signed.hex
+  - app_provision.hex

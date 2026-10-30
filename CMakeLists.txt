@@ -66,73 +66,12 @@ if(CONFIG_LMTSDK)
     target_include_directories(app PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
     target_link_libraries(app PRIVATE lmtSDK)
 
-    #zephyr_nanopb_sources(app boards/arm/lmt_som_nrf9160/lib/extra/A2.proto)
 
     message(STATUS "Called from parent CMakeLists.txt at: ${CMAKE_SOURCE_DIR}")
 
-    # Prepare for DDT FS
-    set(PM_CONFIG_H "${CMAKE_BINARY_DIR}/zephyr/include/generated/pm_config.h")
-
-    set(GEN_LMT_DDT_FS_START_PY "${CMAKE_CURRENT_SOURCE_DIR}/scripts/gen_lmt_ddt_fs_start.py")
-    set(GEN_LMT_DDT_FS_NVS_PY "${CMAKE_CURRENT_SOURCE_DIR}/scripts/gen_lmt_ddt_fs_nvs.py")
-    set(GEN_LMT_DDT_FS_LFS_PY "${CMAKE_CURRENT_SOURCE_DIR}/scripts/gen_lmt_ddt_fs_lfs.py")
-
     set(LMT_GEN_C_DIR "${CMAKE_CURRENT_BINARY_DIR}/lmt_generated")
-    set(LMT_DDT_FS_C "${LMT_GEN_C_DIR}/lmt_ddt_fs.c")
 
     file(MAKE_DIRECTORY "${LMT_GEN_C_DIR}")
-
-    # Generate the C file start
-    add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lmt_ddt_fs.c.start.ok
-        COMMAND ${PYTHON_EXECUTABLE} ${GEN_LMT_DDT_FS_START_PY}
-                ${LMT_GEN_C_DIR}
-        COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/lmt_ddt_fs.c.start.ok
-        DEPENDS ${PM_CONFIG_H} ${GEN_LMT_DDT_FS_START_PY}
-        COMMENT "Generating start of lmt_ddt_fs.c"
-        VERBATIM
-    )
-
-    add_custom_target(generate_lmt_ddt_fs_start DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/lmt_ddt_fs.c.start.ok)
-
-    # Generate the NVS section
-    add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lmt_ddt_fs.c.nvs.ok
-        COMMAND ${PYTHON_EXECUTABLE} ${GEN_LMT_DDT_FS_NVS_PY}
-                ${LMT_GEN_C_DIR} ${PM_CONFIG_H} nvs_storage fs_nvs
-        COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/lmt_ddt_fs.c.nvs.ok
-        DEPENDS ${PM_CONFIG_H} ${GEN_LMT_DDT_FS_NVS_PY}
-        COMMENT "Appending NVS section"
-        VERBATIM
-    )
-
-    add_custom_target(generate_lmt_ddt_fs_nvs DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/lmt_ddt_fs.c.nvs.ok)
-    add_dependencies(generate_lmt_ddt_fs_nvs generate_lmt_ddt_fs_start)
-
-    # Generate the LFS section
-    dt_node_exists(LFS1_PRESENT PATH /fstab/lfs1)
-    if(LFS1_PRESENT)
-
-        add_custom_command(
-            OUTPUT ${LMT_DDT_FS_C}
-            COMMAND ${PYTHON_EXECUTABLE} ${GEN_LMT_DDT_FS_LFS_PY}
-                    ${LMT_GEN_C_DIR} ${PM_CONFIG_H}
-                    littlefs_storage fs_lfs_config fs_lfs_mount /lfs
-            DEPENDS ${PM_CONFIG_H} ${GEN_LMT_DDT_FS_LFS_PY}
-            COMMENT "Appending LFS section"
-        )
-
-        add_custom_target(generate_lmt_ddt_fs_lfs DEPENDS ${LMT_DDT_FS_C})
-        add_dependencies(generate_lmt_ddt_fs_lfs generate_lmt_ddt_fs_nvs)
-
-        add_custom_target(generate_lmt_ddt_fs ALL DEPENDS generate_lmt_ddt_fs_lfs)
-
-    else()
-        message(STATUS "Log filesystem in internal storage")
-        #ToDo: more info needed
-        # storage_partition
-        add_custom_target(generate_lmt_ddt_fs ALL DEPENDS generate_lmt_ddt_fs_nvs)
-    endif()
 
     # Generate json.bin from /etc
     set(ETC_FOLDER "${CMAKE_SOURCE_DIR}/etc")
@@ -153,7 +92,9 @@ if(CONFIG_LMTSDK)
     )
 
     add_custom_target(generate_json_bin ALL DEPENDS ${JSON_BIN})
-    add_dependencies(generate_json_bin generate_lmt_ddt_fs)
+    set(LMT_DDT_NVS_FS_C "${CMAKE_CURRENT_LIST_DIR}/def/lmt_part_struct.c")
+    add_custom_target(generate_lmt_ddt_nvs_lfs DEPENDS ${LMT_DDT_NVS_FS_C})
+    add_dependencies(generate_json_bin generate_lmt_ddt_nvs_lfs)
 
     # Convert json.bin into a C source file containing uint8_t coap[] = { ... };
     set(VAR_NAME coap_data)
@@ -207,6 +148,7 @@ if(CONFIG_LMTSDK)
     # Include generated .c file in your build
     set(LMTSDK_GEN_SOURCES
         ${LMT_DDT_FS_C}
+        ${LMT_DDT_NVS_FS_C}
         ${C_BIN_ARRAY_C}
         ${C_GLUE_C}
         ${C_PORT_C}

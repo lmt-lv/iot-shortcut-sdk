@@ -9,6 +9,8 @@
 #include "lmt_sdk_app.h"
 #include <modem/modem_info.h>
 
+#define FW_VERSION "1.0.0"
+
 #define CELL_ID_TRACK_ID 0
 #define FIX_INTERVAL_S 60
 #define FIX_RETRY_S 45
@@ -97,6 +99,14 @@ void onTerminalCmd(const void *p_data, int i_data)
  */
 int main(void)
 {
+    // Set claim token UUID; the portal uses it to auto-claim the device
+    // to a specific tenant and device type. 
+    // To take effect provide your actual claim token UUID.
+    setClaimTokenUuid("00000000-0000-0000-0000-000000000000");
+
+    // Set firmware version so its uploaded to portal
+    addFWVersionToUpMessage(FW_VERSION);
+
     // Set uplink period in minutes(how often data is sent to server)
     setUplinkTimeout(5);
     // Initialize the LMT SDK (sets up core system functions)

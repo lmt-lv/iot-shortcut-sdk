@@ -52,6 +52,9 @@ void onTerminalCmd(const void *p_data, int i_data)
  */
 int main(void)
 {
+    // Set firmware version so its uploaded to portal
+    addFWVersionToUpMessage(CONFIG_MCUBOOT_IMGTOOL_SIGN_VERSION);
+
     // The init order depends on the Setup called functions
     lmtInit();  // init the lmtSDK first if Setup uses lmtSDK functionality
     usrInit();  // init the application

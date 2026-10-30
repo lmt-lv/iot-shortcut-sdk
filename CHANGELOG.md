@@ -1,10 +1,33 @@
-## 2.4.1 (2026--09-29)
+## 2.5.0 (2026-10-29)
+### Added
+* Option to set device claim token (`setClaimTokenUuid()`, `getClaimTokenUuid()`)
+* Function to set firmware version which is shown in platform (`addFWVersionToUpMessage()`)
+* Explicit TF-M size settings for regular and debug builds
+* Explicit modem event enable config
+* POSIX network API header includes
+
+### Changed
+* Migrated to NCS 3.4.1 LTS
+* Replaced Partition Manager (soon deprecated) with explicit partitions in board files
+* Moved `nvs_storage` to `def/lmt_part_struct.c`
+* Uplink timeout range from 5–1440 min to 1–1200 min
+* No-PSM timeout range from 60–1440 min to 10–1440 min
+
+### Fixed
+* File handling collision
+* File system access
+* RAI usage
+
+### Removed
+* Debug info from library file
+
+## 2.4.1 (2026-09-29)
 ### Bug Fixes
 * GNSS work queue allocated in application build
 * Allow set LTE preference in LTE-M and NB-IoT only modes
 * Read device serial number and allow sending custom modem commands before modem initialization
 
-## 2.4.0 (2026--09-22)
+## 2.4.0 (2026-09-22)
 ### Feature
 * NTN (satellite NB-IoT) support, with modem hardware and firmware capability checks
 * GNSS and terrestrial network services can be enabled or disabled independently

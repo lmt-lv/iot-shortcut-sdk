@@ -176,7 +176,7 @@ int setLTEConnectionTimeout(uint16_t timeout);
  * @brief Set the device uplink timeout.
  *
  * @param timeout Device uplink timeout in minutes.
- * 5 (min) <= timeout <= 1440 (24h).
+ * 1 (min) <= timeout <= 1200 (20h).
  *
  * @return 0 on success, -EINVAL otherwise.
  */
@@ -185,8 +185,8 @@ int setUplinkTimeout(uint16_t timeout);
 /**
  * @brief Set the device uplink timeout when PSM not available.
  *
- * @param timeout Device uplink timout in hours
- * 1 <= timeout <= 24 (hours).
+ * @param timeout Device uplink timout in minutes
+ * 10 <= timeout <= 1440 (minutes).
  *
  * @return 0 on success, -EINVAL otherwise.
  */
@@ -425,6 +425,18 @@ int setSerialLogLevel(LogLevel level);
  */
 int setPerBandTimeout(uint8_t timeout);
 
+/**
+ * @brief Set the claim token identifying this device to the platform.
+ *
+ * The token is a canonical UUID string (36 characters) obtained from the
+ * platform. It is copied internally and must be set before initialisation.
+ *
+ * @param uuid Claim token, NUL-terminated.
+ *
+ * @return 0 token stored, -EINVAL if uuid malformed
+ */
+int setClaimTokenUuid(const char *uuid);
+
 // Settings getter functions
 /**
  * @brief Reads devices power option flag: true for battery powered devices.
@@ -458,7 +470,7 @@ int getUplinkTimeout(void);
 /**
  * @brief Get the device uplink timeout when no PSM available.
  *
- * @return Device uplink timeout when PSM not available in hours.
+ * @return Device uplink timeout when PSM not available in minutes.
  */
 int getNoPsmUplinkTimeout(void);
 
@@ -666,6 +678,13 @@ LogLevel getSerialLogLevel(void);
  * @return Band sweep timeout in seconds.
  */
 int getPerBandTimeout(void);
+
+/**
+ * @brief Get the claim token identifying this device to the platform.
+ *
+ * @return Claim token UUID string, or an empty string if not set.
+ */
+const char *getClaimTokenUuid(void);
 
 // Enable/Disable couples
 

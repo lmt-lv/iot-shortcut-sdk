@@ -3,7 +3,7 @@
 # Copyright (c) 2025 Latvijas Mobilais Telefons
 # SPDX-License-Identifier: Apache-2.0
 
-if BOARD_LMT_SOM_NRF9151 || BOARD_LMT_SOM_NRF9151_NS
+if BOARD_LMT9151SOM_NRF9151 || BOARD_LMT9151SOM_NRF9151_NS
 
 # For the secure version of the board the firmware is linked at the beginning
 # of the flash, or into the code-partition defined in DT if it is intended to
@@ -18,19 +18,19 @@ if BOARD_LMT_SOM_NRF9151 || BOARD_LMT_SOM_NRF9151_NS
 # Workaround for not being able to have commas in macro arguments
 DT_CHOSEN_Z_CODE_PARTITION := zephyr,code-partition
 
-config FLASH_LOAD_SIZE
-	default $(dt_chosen_reg_size_hex,$(DT_CHOSEN_Z_CODE_PARTITION))
-	depends on BOARD_LMT_SOM_NRF9151 && TRUSTED_EXECUTION_SECURE
+if BUILD_WITH_TFM
+	# Explicitly define TFM Profile as Minimal, otherwise TFM is x2 in size (around 64kB).
+	choice TFM_PROFILE_TYPE
+		default TFM_PROFILE_TYPE_MINIMAL
+	endchoice
 
-if BOARD_LMT_SOM_NRF9151_NS
+	# When creating debug build TFM grows double in-size to around 64kB even with PROFILE_TYPE_MINIMAL.
+	# This config makes it so that TFM debug symbols are not included in debug builds.
+	choice TFM_CMAKE_BUILD_TYPE
+		default TFM_CMAKE_BUILD_TYPE_MINSIZEREL
+	endchoice
 
-config FLASH_LOAD_OFFSET
-	default $(dt_chosen_reg_addr_hex,$(DT_CHOSEN_Z_CODE_PARTITION))
-
-config FLASH_LOAD_SIZE
-	default $(dt_chosen_reg_size_hex,$(DT_CHOSEN_Z_CODE_PARTITION))
-
-endif # BOARD_LMT_SOM_NRF9151_NS
+endif #BUILD_WITH_TFM
 
 config BT_HCI_VS
 	default y if BT
@@ -41,4 +41,4 @@ config BT_WAIT_NOP
 config I2C
 	default $(dt_compat_on_bus,$(DT_COMPAT_NXP_PCAL6408A),i2c)
 
-endif # BOARD_LMT_SOM_NRF9151 || BOARD_LMT_SOM_NRF9151_NS
+endif # BOARD_LMT9151SOM_NRF9151 || BOARD_LMT9151SOM_NRF9151_NS

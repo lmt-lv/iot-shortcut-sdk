@@ -1,0 +1,11 @@
+// In NCS 3.2.4 Partition Manager was used, which handed the NSIB (b0) the full app RAM partition while it ran.
+// The sram_s partition is defined as 32kB in the lmt9151som files as that is what MCUBoot uses.
+// That is too small for b0 and thus this overlay is necessary from 3.4.1, when partition manager is removed.
+// The sram_s partition CAN be enlarged in the board files, but that would waste space and differ from the partition
+// that was used with NCS 3.2.4
+/ {
+    chosen {
+		zephyr,sram = &sram0_ns_app;
+        zephyr,code-partition = &b0_partition;
+	};
+};

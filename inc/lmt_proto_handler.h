@@ -207,4 +207,13 @@ bool decodeMessage(const uint8_t *p_buffer);
  */
 int sendCustomEvent(const char *event, const char *value, uint64_t time, EventSeverity severity);
 
+/**
+ * @brief Adds the firmware version to the uplink message. It is sent once, in the first uplink.
+ *
+ * @param version Firmware version string. Max length 16 bytes including null terminator
+ *
+ * @return 0 on success, -EINVAL if the string is NULL, empty or too long
+ */
+int addFWVersionToUpMessage(const char *version);
+
 #endif // LMT_PROTO_HANDLER_H

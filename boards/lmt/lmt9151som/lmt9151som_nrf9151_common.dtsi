@@ -14,7 +14,6 @@
 		zephyr,console = &uart0;
 		zephyr,shell-uart = &uart0;
 		zephyr,uart-mcumgr = &uart0;
-		nordic,pm-ext-flash = &ext_flash;
 	};
 
 	aliases {
@@ -105,55 +104,113 @@
 };
 
 &flash0 {
-
 	partitions {
-		compatible = "fixed-partitions";
-		#address-cells = <1>;
-		#size-cells = <1>;
-
-		boot_partition: partition@0 {
-			label = "mcuboot";
-			reg = <0x00000000 0x10000>;
-		};
-		slot0_partition: partition@10000 {
-			label = "image-0";
-		};
-		slot0_ns_partition: partition@50000 {
-			label = "image-0-nonsecure";
-		};
-		slot1_partition: partition@85000 {
-			label = "image-1";
-		};
-		slot1_ns_partition: partition@c5000 {
-			label = "image-1-nonsecure";
-		};
-		storage_partition: partition@fa000 {
-			label = "storage";
-			reg = <0x000fa000 0x00006000>;
-		};
-	};
-};
-
-/ {
-
-	reserved-memory {
-		#address-cells = <1>;
-		#size-cells = <1>;
 		ranges;
+		#address-cells = <1>;
+		#size-cells = <1>;
 
-		sram0_s: image_s@20000000 {
-			/* Secure image memory */
+		boot_partition: b0_partition: partition@0 {
+			compatible = "zephyr,mapped-partition";
+			label = "mcuboot";
+			reg = <0x00000000 0x8000>;
 		};
+		s0_partition: partition@8000 {
+			compatible = "zephyr,mapped-partition";
+			label = "mcuboot-0";
+			reg = <0x00008000 0xc000>;
+		};
+		/* 0x14000-0x18000: EMPTY_0 (unallocated) */
+		s1_partition: partition@18000 {
+			compatible = "zephyr,mapped-partition";
+			label = "mcuboot-1";
+			reg = <0x00018000 0xc000>;
+		};
+		/* 0x24000-0x28000: EMPTY_1 (unallocated) */
+		slot0_partition: partition@28000 {
+			compatible = "zephyr,mapped-partition";
+			label = "image-0";
+			reg = <0x00028000 0x68000>;
+			ranges = <0x0 0x00028000 0x68000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
 
-		sram0_modem: image_modem@20016000 {
-			/* Modem (shared) memory */
+			slot0_s_partition: partition@0 {
+				compatible = "zephyr,mapped-partition";
+				label = "image-0-secure";
+				reg = <0x00000000 0x8000>;
+			};
+			slot0_ns_partition: partition@8000 {
+				compatible = "zephyr,mapped-partition";
+				label = "image-0-nonsecure";
+				reg = <0x00008000 0x60000>;
+			};
 		};
+		slot1_partition: partition@90000 {
+			compatible = "zephyr,mapped-partition";
+			label = "image-1";
+			reg = <0x00090000 0x68000>;
+			ranges = <0x0 0x00090000 0x68000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
 
-		sram0_ns: image_ns@20020000 {
-			/* Non-Secure image memory */
+			slot1_s_partition: partition@0 {
+				compatible = "zephyr,mapped-partition";
+				label = "image-1-secure";
+				reg = <0x00000000 0x8000>;
+			};
+			slot1_ns_partition: partition@8000 {
+				compatible = "zephyr,mapped-partition";
+				label = "image-1-nonsecure";
+				reg = <0x00008000 0x60000>;
+			};
 		};
+		storage_partition: partition@f8000 {
+			compatible = "zephyr,mapped-partition";
+			label = "storage";
+			reg = <0x000f8000 0x6000>;
+			ranges = <0x0 0x000f8000 0x6000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			/* PM: nvs_storage, used by lmtSDK fs_nvs (6 x 4 KiB) */
+			nvs_storage: partition@0 {
+				compatible = "zephyr,mapped-partition";
+				label = "nvs_storage";
+				reg = <0x0 0x6000>;
+			};
+		};
+		/* 0xfe000-0x100000: EMPTY_2 (unallocated) */
 	};
 };
 
-/* Include partition configuration file */
-#include "lmt9151som_nrf9151_partition_conf.dtsi"
+
+&sram0 {
+	sram0_s: sram@0 {
+		reg = <0x0 0x8000>;
+	};
+	sram0_ns: sram@8000 {
+		reg = <0x8000 0x38000>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges = <0x0 0x8000 0x38000>;
+
+		sram0_ns_modem: sram0_ns@0 {
+			reg = <0x0 0x4568>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x0 0x0 0x4568>;
+
+			cpuapp_cpucell_ipc_shm_ctrl: sram0_ns_modem@0 {
+				reg = <0x0 0x4e8>;
+			};
+			cpuapp_cpucell_ipc_shm_heap: sram0_ns_modem@4e8 {
+				reg = <0x4e8 0x2080>;
+			};
+			cpucell_cpuapp_ipc_shm_heap: sram0_ns_modem@2568 {
+				reg = <0x2568 0x2000>;
+			};
+		};
+		sram0_ns_app: sram0_ns@4568 {
+			reg = <0x4568 0x33a98>;
+		};
+	};
+};

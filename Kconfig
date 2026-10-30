@@ -27,6 +27,7 @@ config LMTSDK
     select LTE_LC_CONN_EVAL_MODULE
     select LTE_LC_PSM_MODULE
     select LTE_LC_EDRX_MODULE
+    select LTE_LC_MODEM_EVENTS_MODULE
     select POSIX_API
     select NRF_MODEM_LIB
     select MODEM_KEY_MGMT
@@ -48,8 +49,6 @@ config LMTSDK
     select SPI
     select SPI_NOR
     select FLASH_JESD216_API
-    select PM_PARTITION_REGION_LITTLEFS_EXTERNAL
-    select PM_OVERRIDE_EXTERNAL_DRIVER_CHECK
     select STREAM_FLASH
     select IMG_MANAGER
     select ASSERT
