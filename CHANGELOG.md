@@ -1,3 +1,7 @@
+## 2.5.1 (2026-11-04)
+### Changed
+* Default `AT_MONITOR_HEAP_SIZE` raised from 256 to 512 bytes to prevent heap exhaustion from modem event bursts
+
 ## 2.5.0 (2026-10-29)
 ### Added
 * Option to set device claim token (`setClaimTokenUuid()`, `getClaimTokenUuid()`)

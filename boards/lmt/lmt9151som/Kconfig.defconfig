@@ -41,4 +41,7 @@ config BT_WAIT_NOP
 config I2C
 	default $(dt_compat_on_bus,$(DT_COMPAT_NXP_PCAL6408A),i2c)
 
+config AT_MONITOR_HEAP_SIZE
+	default 512
+
 endif # BOARD_LMT9151SOM_NRF9151 || BOARD_LMT9151SOM_NRF9151_NS
